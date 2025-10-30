@@ -15,3 +15,4 @@ class Warga extends Model
         'no_ktp', 'nama', 'jenis_kelamin', 'agama', 'pekerjaan', 'telp', 'email'
     ];
 }
+

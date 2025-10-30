@@ -24,6 +24,73 @@
         border-color: #0d6efd;
         box-shadow: 0 0 0 0.2rem rgba(13,110,253,.25);
     }
+    body {
+        background: linear-gradient(135deg, #cce5ff, #e6f7ff, #ffffff);
+        animation: bgMove 10s infinite alternate ease-in-out;
+    }
+
+    @keyframes bgMove {
+        0% { background-position: left top; }
+        100% { background-position: right bottom; }
+    }
+
+    .bg-sky {
+        background: linear-gradient(90deg, #0099ff, #66ccff);
+    }
+
+    .text-sky {
+        color: #007bff;
+    }
+
+    .gradient-card {
+        background: linear-gradient(180deg, #f8fbff, #eaf6ff);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .gradient-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0px 10px 25px rgba(0, 150, 255, 0.3);
+    }
+
+    .form-control-animated {
+        border-radius: 10px;
+        border: 2px solid #dceeff;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .form-control-animated:focus {
+        border-color: #66b3ff;
+        box-shadow: 0 0 8px rgba(102, 179, 255, 0.6);
+        transform: scale(1.01);
+    }
+
+    .hover-zoom {
+        transition: all 0.3s ease;
+    }
+
+    .hover-zoom:hover {
+        transform: scale(1.05);
+    }
+
+    .btn-glow {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-glow::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.3);
+        transition: left 0.4s ease;
+    }
+
+    .btn-glow:hover::after {
+        left: 100%;
+    }
 </style>
 
 <div class="container mt-5">

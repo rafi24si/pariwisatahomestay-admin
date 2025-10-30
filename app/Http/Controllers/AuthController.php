@@ -6,16 +6,13 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    // GET /auth → tampilkan halaman login
     public function index()
     {
         return view('auth.login_form');
     }
 
-    // POST /auth/login → proses login
     public function login(Request $request)
     {
-        // Validasi input
         $request->validate([
             'username' => 'required',
             'password' => [
@@ -27,17 +24,17 @@ class AuthController extends Controller
                     }
                 }
             ],
-        ], [
-            'username.required' => 'Username wajib diisi.',
-            'password.required' => 'Password wajib diisi.',
-            'password.min' => 'Password minimal 3 karakter.',
         ]);
 
         $username = $request->input('username');
         $password = $request->input('password');
 
-        // Logika: username harus sama dengan password
+        // Logika login sederhana
         if ($username === $password) {
+            // Simpan status login di session
+            $request->session()->put('is_logged_in', true);
+            $request->session()->put('username', $username);
+
             return view('auth.success', [
                 'message' => "Selamat datang, $username! Login berhasil."
             ]);
@@ -45,5 +42,13 @@ class AuthController extends Controller
 
         return back()->withErrors(['login' => 'Username dan password harus sama untuk login.'])->withInput();
     }
-}
 
+    public function logout(Request $request)
+    {
+        // Hapus semua session login
+        $request->session()->flush();
+
+        // Redirect ke halaman login
+        return redirect('/')->with('message', 'Berhasil logout.');
+    }
+}

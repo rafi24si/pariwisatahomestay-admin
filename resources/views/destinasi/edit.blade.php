@@ -13,7 +13,7 @@
         </div>
 
         <div class="card-body bg-light p-4">
-            <form action="{{ route('destinasi.update', $data->destinasi_id) }}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+            <form id="form-edit" action="{{ route('destinasi.update', $data->destinasi_id) }}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
                 @csrf
                 @method('PUT')
 
@@ -67,7 +67,7 @@
                 </div>
 
                 <div class="mt-4 d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary px-4 py-2 fw-semibold shadow-sm d-flex align-items-center">
+                    <button type="button" id="btn-submit" class="btn btn-primary px-4 py-2 fw-semibold shadow-sm d-flex align-items-center">
                         <i class="bi bi-check-circle-fill me-2"></i> Simpan Perubahan
                     </button>
                 </div>
@@ -76,22 +76,51 @@
     </div>
 </div>
 
-{{-- Optional Animation --}}
+{{-- SweetAlert2 --}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.getElementById('btn-submit').addEventListener('click', function(e) {
+    Swal.fire({
+        title: 'Simpan perubahan?',
+        text: 'Pastikan semua data sudah benar.',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, simpan!',
+        cancelButtonText: 'Batal',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById('form-edit').submit();
+        }
+    });
+});
+
+// Notifikasi sukses
+@if(session('success'))
+Swal.fire({
+    title: 'Berhasil!',
+    text: "{{ session('success') }}",
+    icon: 'success',
+    timer: 2000,
+    showConfirmButton: false
+});
+@endif
+</script>
+
 <style>
-    .card {
-        animation: fadeInUp 0.6s ease-in-out;
-    }
+.card {
+    animation: fadeInUp 0.6s ease-in-out;
+}
 
-    @keyframes fadeInUp {
-        0% { opacity: 0; transform: translateY(20px); }
-        100% { opacity: 1; transform: translateY(0); }
-    }
+@keyframes fadeInUp {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
 
-    .btn-primary:hover {
-        background-color: #0d6efd;
-        box-shadow: 0 0 15px rgba(13, 110, 253, 0.5);
-        transform: translateY(-2px);
-        transition: all 0.2s ease-in-out;
-    }
+.btn-primary:hover {
+    background-color: #0d6efd;
+    box-shadow: 0 0 15px rgba(13, 110, 253, 0.5);
+    transform: translateY(-2px);
+    transition: all 0.2s ease-in-out;
+}
 </style>
 @endsection
