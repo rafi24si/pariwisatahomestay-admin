@@ -10,33 +10,232 @@
   <link rel="stylesheet" href="assets-admin/vendors/css/vendor.bundle.base.css">
   <link rel="stylesheet" href="assets-admin/css/demo_1/style.css" />
   <link rel="shortcut icon" href="assets-admin/images/favicon.png" />
+<link rel="stylesheet" href="assets-admin/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="assets-admin/vendors/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="assets-admin/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="assets-admin/vendors/jquery-bar-rating/css-stars.css" />
+    <link rel="stylesheet" href="assets-admin/vendors/font-awesome/css/font-awesome.min.css" />
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="assets-admin/css/demo_1/style.css" />
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="assets-admin/images/favicon.png" />
 
   <style>
-    /* Floating WhatsApp Button */
-    .whatsapp-float {
-      position: fixed;
-      width: 60px;
-      height: 60px;
-      bottom: 25px;
-      right: 25px;
-      background-color: #25d366;
-      color: #fff;
-      border-radius: 50%;
-      text-align: center;
-      font-size: 30px;
-      box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
-      z-index: 100;
-      transition: transform 0.3s ease;
+/* === GLOBAL THEME BLUE SKY === */
+body {
+    background: #e9f3ff;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* ==== SIDEBAR ==== */
+.sidebar {
+    background: linear-gradient(180deg, #1a73e8, #4ea8ff);
+    border-right: none;
+}
+.sidebar .nav-link {
+    color: #fff;
+    transition: 0.3s;
+    border-radius: 8px;
+}
+.sidebar .nav-link:hover {
+    background: rgba(255,255,255,0.18);
+    transform: scale(1.03);
+}
+.sidebar .menu-title {
+    font-weight: 600;
+}
+.nav-profile-text span {
+    color: #fff !important;
+}/* ===== SIDEBAR BASE ===== */
+.sidebar {
+    width: 240px;
+    height: 100vh;
+    background: #0d6efd;         /* biru admin */
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding-top: 70px;
+    overflow-y: auto;
+    transition: 0.35s ease;
+    z-index: 999;
+    box-shadow: 0 0 15px rgba(0,0,0,0.25);
+}
+
+/* ===== CLOSED MODE ===== */
+.sidebar.closed {
+    width: 70px;
+}
+
+/* ===== ITEM MENU ===== */
+.sidebar .nav-link {
+    color: #fff;
+    font-size: 15px;
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    transition: 0.2s;
+}
+
+.sidebar .nav-link i {
+    font-size: 21px;
+    margin-right: 14px;
+    transition: 0.3s;
+}
+
+/* ===== HOVER ===== */
+.sidebar .nav-link:hover {
+    background: rgba(255,255,255,0.15);
+    padding-left: 25px;
+    border-radius: 6px;
+}
+
+/* ICON SPIN ANIMATION ON HOVER */
+.sidebar .nav-link:hover i {
+    transform: rotate(20deg) scale(1.1);
+}
+
+/* HIDE TEXT IF CLOSED */
+.sidebar.closed .nav-link span {
+    display: none;
+}
+
+    /* RESPONSIVE */
+    @media(max-width: 990px){
+        .sidebar {
+            left: -250px;
+        }
+        .sidebar.open {
+            left: 0;
+        }
     }
 
-    .whatsapp-float:hover {
-      transform: scale(1.1);
-      background-color: #20ba5a;
-    }
 
-    .whatsapp-icon {
-      margin-top: 15px;
+/* NAV TOP */
+.navbar {
+    background: #f8faff;
+    border-bottom: 2px solid #d5e3ff;
+}
+.btn-danger {
+    border-radius: 8px;
+}
+.btn-danger:hover {
+    transform: scale(1.05);
+}
+
+/* ==== BUTTON ==== */
+.btn-primary {
+    background: linear-gradient(135deg, #0066ff, #5ab6ff);
+    border: none;
+    transition: 0.3s;
+    border-radius: 10px;
+}
+.btn-primary:hover {
+    transform: scale(1.08);
+    opacity: 0.9;
+}
+.btn-outline-primary {
+    border-radius: 10px;
+    border-color: #0066ff;
+}
+.btn-outline-primary:hover {
+    background: #0066ff !important;
+    color: #fff;
+}
+
+/* ==== SIDEBAR FIX ==== */
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: linear-gradient(90deg, #0099ff, #66ccff);
+    overflow-y: auto;
+    z-index: 9999;
+    padding-top: 80px;
+    transition: .3s ease;
+}
+
+/* Konten geser otomatis ke kanan */
+.content-wrapper {
+    margin-left: 260px;
+    transition: .3s ease;
+}
+
+/* ====== mode collapse ===== */
+.sidebar.closed {
+    width: 80px;
+}
+.sidebar.closed .menu-text {
+    display: none;
+}
+.content-wrapper.shifted {
+    margin-left: 80px;
+}
+
+/* Biar konten tidak menimpa sidebar di layar kecil */
+@media(max-width: 992px){
+    .sidebar {
+        left: -260px; /* tersembunyi */
     }
+    .sidebar.open {
+        left: 0;
+    }
+    .content-wrapper {
+        margin-left: 0 !important;
+    }
+}
+
+.navbar-menu-wrapper {
+    background: linear-gradient(90deg, #0099ff, #66ccff) !important;
+    display: flex;
+    align-items: stretch;
+    padding: 0 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: .3s ease;
+}
+
+
+
+/* Floating WhatsApp ( improved ) */
+.whatsapp-float {
+    position: fixed;
+    width: 67px;
+    height: 67px;
+    bottom: 25px;
+    right: 25px;
+    background: linear-gradient(145deg, #25d366, #20ba5a);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 36px;
+    color: #fff;
+    z-index: 100;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    transition: 0.3s ease;
+}
+.whatsapp-float:hover {
+    transform: scale(1.15);
+    box-shadow: 0 0 18px rgba(37,211,102,0.7);
+}
+
+/* Fade animation pada body */
+.main-panel, .card, .navbar, .sidebar {
+    animation: fadeInUp 0.6s ease forwards;
+    opacity: 0;
+}
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
   </style>
 </head>
 
@@ -136,6 +335,23 @@
               </div>
             </div>
           </div>
+
+ <div class="row">
+              <div class="col-xl-4 grid-margin">
+                <div class="card card-stat stretch-card mb-3">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <div class="text-white">
+                        <h3 class="font-weight-bold mb-0">$168.90</h3>
+                        <h6>This Month</h6>
+                        <div class="badge badge-danger">23%</div>
+                      </div>
+                      <div class="flot-bar-wrapper">
+                        <div id="column-chart" class="flot-chart"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
         </div>
       </div>

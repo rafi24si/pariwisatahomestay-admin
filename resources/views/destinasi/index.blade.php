@@ -5,10 +5,18 @@
     <div class="card shadow-lg border-0 rounded-4 animate__animated animate__fadeInUp gradient-card">
         <div class="card-header bg-sky text-white d-flex justify-content-between align-items-center rounded-top-4 p-3 animate__animated animate__fadeInDown">
             <h4 class="mb-0 fw-bold"><i class="bi bi-map-fill me-2"></i>Data Destinasi Wisata</h4>
-            <a href="{{ route('destinasi.create') }}" class="btn btn-light text-primary fw-bold rounded-pill hover-zoom shadow-sm">
-                <i class="bi bi-plus-circle"></i> Tambah Destinasi
-            </a>
+
+            <div class="d-flex gap-2">
+                <a href="{{ route('admin.dashboard') }}" class="btn btn-light text-dark fw-bold rounded-pill hover-zoom shadow-sm">
+                    <i class="bi bi-arrow-left-circle"></i> Kembali
+                </a>
+
+                <a href="{{ route('destinasi.create') }}" class="btn btn-light text-primary fw-bold rounded-pill hover-zoom shadow-sm">
+                    <i class="bi bi-plus-circle"></i> Tambah Destinasi
+                </a>
+            </div>
         </div>
+
 
         <div class="card-body bg-light animate__animated animate__fadeIn">
             <table class="table table-hover align-middle text-center shadow-sm rounded-3 overflow-hidden">

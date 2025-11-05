@@ -14,7 +14,7 @@
     }
 
     .card-header-blue {
-        background: linear-gradient(90deg, #0d6efd 0%, #2b8cff 100%);
+        background: linear-gradient(90deg, #0099ff, #66ccff);
         color: #fff;
         border-bottom: 0;
         padding: 20px 24px;
@@ -137,15 +137,19 @@
 </style>
 
 <div class="container mt-5">
-    <div class="card card-warga">
-        <div class="card-header-blue d-flex justify-content-between align-items-center flex-wrap">
-            <div>
-                <h4>Data Warga</h4>
-                <small>Kelola data warga dengan mudah dan cepat</small>
+    <div class="card shadow-lg border-0 rounded-4 animate__animated animate__fadeInUp gradient-card">
+        <div class="card-header bg-sky text-white d-flex justify-content-between align-items-center rounded-top-4 p-3 animate__animated animate__fadeInDown">
+            <h4 class="mb-0 fw-bold"><i class="bi bi-map-fill me-2"></i>Data Destinasi Wisata</h4>
+
+            <div class="d-flex gap-2">
+                <a href="{{ route('admin.dashboard') }}" class="btn btn-light text-dark fw-bold rounded-pill hover-zoom shadow-sm">
+                    <i class="bi bi-arrow-left-circle"></i> Kembali
+                </a>
+
+                <a href="{{ route('warga.create') }}" class="btn btn-light text-primary fw-bold rounded-pill hover-zoom shadow-sm">
+                    <i class="bi bi-plus-circle"></i> Tambah Data Warga
+                </a>
             </div>
-            <a href="{{ route('warga.create') }}" class="btn btn-add btn-sm mt-2 mt-md-0">
-                <i class="bi bi-person-plus"></i> Tambah Warga
-            </a>
         </div>
 
 

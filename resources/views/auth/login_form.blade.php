@@ -76,7 +76,7 @@
 
         .login-box h1 {
             font-weight: 700;
-            color: #0078ff;
+            color:  #66a6ff;
             letter-spacing: 1px;
             margin-bottom: 10px;
         }

@@ -122,11 +122,11 @@ Swal.fire({
     }
 
     .text-sky {
-        color: #007bff;
+        background: linear-gradient(90deg, #0099ff, #66ccff);
     }
 
     .gradient-card {
-        background: linear-gradient(180deg, #f8fbff, #eaf6ff);
+        background: linear-gradient(90deg, #0099ff, #66ccff);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
@@ -175,6 +175,6 @@ Swal.fire({
         left: 100%;
     }
 
-    
+
 </style>
 @endsection
