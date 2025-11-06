@@ -8,8 +8,8 @@ use App\Http\Controllers\HomestayController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
-Route::get('/', [AuthController::class, 'index'])->name('auth.index');    //GET → tampilkan form login
-Route::post('/auth/login', [AuthController::class, 'login'])->name('auth.login'); // POST → proses login
+Route::get('/', [AuthController::class, 'index'])->name('auth.index');    
+Route::post('/auth/login', [AuthController::class, 'login'])->name('auth.login');
 Route::get('/dashboard', [DashboardController::class, 'index']);
 Route::get('dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 Route::resource('/warga', WargaController::class);

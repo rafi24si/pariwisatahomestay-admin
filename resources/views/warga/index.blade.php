@@ -136,6 +136,7 @@
     }
 </style>
 
+
 <div class="container mt-5">
     <div class="card shadow-lg border-0 rounded-4 animate__animated animate__fadeInUp gradient-card">
         <div class="card-header bg-sky text-white d-flex justify-content-between align-items-center rounded-top-4 p-3 animate__animated animate__fadeInDown">
@@ -152,10 +153,6 @@
             </div>
         </div>
 
-
-
-
-
         <div class="card-body">
             <div class="row mb-3 g-2 align-items-center">
                 <div class="col-md-6">
@@ -168,6 +165,8 @@
                     </form>
                 </div>
             </div>
+
+
 
             <div class="table-responsive">
                 <table class="table table-striped table-hover table-custom align-middle">
