@@ -2,63 +2,75 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Homestay;
 use Illuminate\Http\Request;
 
 class HomestayController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $homestays = Homestay::all();
+        return view('homestay.index', compact('homestays'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('homestay.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'alamat' => 'required|string|max:255',
+            'harga_per_malam' => 'required|numeric|min:0',
+            'fasilitas' => 'required|string|max:255',
+            'status' => 'required|string',
+        ]);
+
+        Homestay::create([
+            'nama' => $request->nama,
+            'alamat' => $request->alamat,
+            'rt' => $request->rt,
+            'rw' => $request->rw,
+            'fasilitas' => $request->fasilitas,
+            'harga_per_malam' => $request->harga_per_malam,
+            'status' => $request->status,
+        ]);
+
+        return redirect('/homestay')->with('success', 'Data homestay berhasil ditambahkan');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit(Homestay $homestay)
     {
-        //
+        return view('homestay.edit', compact('homestay'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, Homestay $homestay)
     {
-        //
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'alamat' => 'required|string|max:255',
+            'harga_per_malam' => 'required|numeric|min:0',
+            'status' => 'required|string',
+        ]);
+
+        $homestay->update([
+            'nama' => $request->nama,
+            'alamat' => $request->alamat,
+            'rt' => $request->rt,
+            'rw' => $request->rw,
+            'fasilitas' => $request->fasilitas,
+            'harga_per_malam' => $request->harga_per_malam,
+            'status' => $request->status,
+        ]);
+
+        return redirect('/homestay')->with('success', 'Data homestay berhasil diperbarui');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy(Homestay $homestay)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $homestay->delete();
+        return redirect('/homestay')->with('success', 'Data homestay berhasil dihapus');
     }
 }

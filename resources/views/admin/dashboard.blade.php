@@ -328,7 +328,7 @@
                     </div>
                 </li>
 
-                <!-- Data Destinasi dropdown -->
+                <!-- Data Homestay dropdown -->
                 <li class="nav-item">
                     <a class="nav-link d-flex justify-content-between align-items-center fw-bold"
                         data-bs-toggle="collapse" href="#destinasiMenu" role="button">
@@ -345,6 +345,26 @@
                         </a>
                         <a href="{{ route('destinasi.create') }}" class="nav-link sub-item fw-semibold text-dark">
                             <i class="bi bi-plus-circle-fill text-success me-2"></i> Tambah Destinasi
+                        </a>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link d-flex justify-content-between align-items-center fw-bold"
+                        data-bs-toggle="collapse" href="#homestayMenu" role="button">
+                        <span class="d-flex align-items-center">
+                            <i class="bi bi-house-fill me-2-info"></i>
+                            <span class="text-dark fw-semibold">Homestay</span>
+                        </span>
+                        <i class="bi bi-chevron-down rotate-icon text-dark"></i>
+                    </a>
+
+                    <div class="collapse ps-4 menu-collapse" id="homestayMenu">
+                        <a href="{{ route('homestay.index') }}" class="nav-link sub-item fw-semibold text-dark">
+                            <i class="bi bi-collection-fill me-2 text-primary"></i> Data Destinasi
+                        </a>
+                        <a href="{{ route('homestay.create') }}" class="nav-link sub-item fw-semibold text-dark">
+                            <i class="bi bi-plus-circle-fill text-success me-2"></i> Tambah Homestay
                         </a>
                     </div>
                 </li>

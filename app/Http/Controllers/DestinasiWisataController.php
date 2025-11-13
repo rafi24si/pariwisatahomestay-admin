@@ -19,7 +19,9 @@ class DestinasiWisataController extends Controller
                   ->orWhere('kontak', 'like', "%$q%");
         }
 
-        $data = $query->latest()->paginate(10);
+        // ubah dari paginate(10) ke get() agar semua data muncul
+        $data = $query->latest()->get();
+
         return view('destinasi.index', compact('data'));
     }
 

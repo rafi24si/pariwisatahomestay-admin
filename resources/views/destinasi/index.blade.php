@@ -19,8 +19,9 @@
 
 
         <div class="card-body bg-light animate__animated animate__fadeIn">
-            <table class="table table-hover align-middle text-center shadow-sm rounded-3 overflow-hidden">
-                <thead class="table-primary text-white bg-sky">
+    <div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
+        <table class="table table-hover align-middle text-center shadow-sm rounded-3 overflow-hidden">
+            <thead class="table-primary text-white bg-sky">
                     <tr>
                         <th>No</th>
                         <th>Nama</th>
@@ -119,6 +120,20 @@
         color: white;
         border-color: #007bff;
     }
+    .table-responsive::-webkit-scrollbar {
+    width: 10px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background: #0099ff;
+    border-radius: 10px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+    background: #007bff;
+}
+.table-responsive::-webkit-scrollbar-track {
+    background: #f1f1f1;
 </style>
 
 {{-- SweetAlert2 --}}

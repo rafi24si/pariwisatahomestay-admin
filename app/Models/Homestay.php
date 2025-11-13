@@ -8,10 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class Homestay extends Model
 {
     use HasFactory;
-    protected $table = 'homestay';
+
     protected $primaryKey = 'homestay_id';
     protected $fillable = [
-        'nama','deskripsi','alamat','kontak','harga_per_malam','fasilitas','media'
+    'nama',
+    'alamat',
+    'rt',
+    'rw',
+    'fasilitas',
+    'harga_per_malam',
+    'status',
+    'warga_id'
+];
+
+
+    protected $casts = [
+        'fasilitas_json' => 'array',
     ];
 }
-
