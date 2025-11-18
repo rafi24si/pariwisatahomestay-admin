@@ -42,13 +42,27 @@
                             <td>{{ $item->jam_buka }}</td>
                             <td>{{ number_format($item->tiket, 0, ',', '.') }}</td>
                             <td>{{ $item->kontak }}</td>
+
                             <td>
                                 @if($item->media)
                                     <img src="{{ asset('storage/' . $item->media) }}" width="70" class="rounded shadow-sm border border-2 border-light">
                                 @else
                                     <span class="text-muted">-</span>
                                 @endif
+
+                                {{-- ========================================= --}}
+                                {{-- TAMBAHAN TOMBOL LIHAT FOTO (TANPA UBAH APAPUN) --}}
+                                @if($item->media)
+
+                                    <br>
+                                    <a href="{{ route('destinasi.show', $item->destinasi_id) }}"
+                                       class="btn btn-primary btn-sm rounded-pill mt-2">
+                                        Lihat Foto
+                                    </a>
+                                @endif
+                                {{-- ========================================= --}}
                             </td>
+
                             <td>
                                 <a href="{{ route('destinasi.edit', $item->destinasi_id) }}" class="btn btn-outline-primary btn-sm rounded-pill hover-zoom">
                                     <i class="bi bi-pencil"></i>
@@ -73,7 +87,6 @@
     </div>
 </div>
 
-{{-- CSS tambahan agar seragam dengan form tambah --}}
 <style>
     body {
         background: linear-gradient(135deg, #cce5ff, #e6f7ff, #ffffff);
@@ -136,7 +149,6 @@
     background: #f1f1f1;
 </style>
 
-{{-- SweetAlert2 --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 document.querySelectorAll('.btn-delete').forEach(btn => {
@@ -172,7 +184,6 @@ document.querySelectorAll('.btn-delete').forEach(btn => {
 });
 </script>
 
-{{-- Animasi dan ikon tambahan --}}
 <link href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 @endsection

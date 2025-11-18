@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DestinasiWisata;
+use App\Models\Media; // [MEDIA]
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,7 +20,6 @@ class DestinasiWisataController extends Controller
                   ->orWhere('kontak', 'like', "%$q%");
         }
 
-        // ubah dari paginate(10) ke get() agar semua data muncul
         $data = $query->latest()->get();
 
         return view('destinasi.index', compact('data'));
@@ -38,7 +38,7 @@ class DestinasiWisataController extends Controller
             'alamat' => 'required',
         ]);
 
-        DestinasiWisata::create([
+        $destinasi = DestinasiWisata::create([
             'nama' => $request->nama,
             'kontak' => $request->kontak,
             'alamat' => $request->alamat,
@@ -48,6 +48,20 @@ class DestinasiWisataController extends Controller
             'deskripsi' => $request->deskripsi,
             'tiket' => $request->tiket,
         ]);
+
+        // [MEDIA] — simpan foto jika ada
+        if ($request->hasFile('media')) {
+            $path = $request->file('media')->store('uploads/destinasi', 'public');
+
+            Media::create([
+                'ref_table' => 'destinasi_wisata',
+                'ref_id' => $destinasi->destinasi_id,
+                'file_url' => $path,
+                'caption' => $request->caption,
+                'mime_type' => $request->file('media')->getClientMimeType(),
+                'sort_order' => 1,
+            ]);
+        }
 
         return redirect()->route('destinasi.index')->with('success', 'Data destinasi berhasil ditambahkan!');
     }
@@ -84,13 +98,51 @@ class DestinasiWisataController extends Controller
             'tiket' => $request->tiket,
         ]);
 
+        // [MEDIA] — update foto
+        if ($request->hasFile('media')) {
+
+            // hapus media lama
+            $oldMedia = Media::where('ref_table', 'destinasi_wisata')
+                              ->where('ref_id', $id)
+                              ->first();
+
+            if ($oldMedia) {
+                Storage::disk('public')->delete($oldMedia->file_url);
+                $oldMedia->delete();
+            }
+
+            // tambah media baru
+            $path = $request->file('media')->store('uploads/destinasi', 'public');
+
+            Media::create([
+                'ref_table' => 'destinasi_wisata',
+                'ref_id' => $id,
+                'file_url' => $path,
+                'caption' => $request->caption,
+                'mime_type' => $request->file('media')->getClientMimeType(),
+                'sort_order' => 1,
+            ]);
+        }
+
         return redirect()->route('destinasi.index')->with('success', 'Data destinasi berhasil diperbarui!');
     }
 
     public function destroy($id)
     {
         $data = DestinasiWisata::findOrFail($id);
+
+        // [MEDIA] — hapus file & record media
+        $media = Media::where('ref_table', 'destinasi_wisata')
+                      ->where('ref_id', $id)
+                      ->get();
+
+        foreach ($media as $m) {
+            Storage::disk('public')->delete($m->file_url);
+            $m->delete();
+        }
+
         $data->delete();
+
         return redirect()->route('destinasi.index')->with('success', 'Destinasi berhasil dihapus!');
     }
 }
