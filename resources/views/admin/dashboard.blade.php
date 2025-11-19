@@ -31,139 +31,268 @@
 
 
     <style>
- /* === GLOBAL THEME BLUE SKY === */
-body {
-    background: #e9f3ff;
-    font-family: 'Poppins', sans-serif;
-}
+        /* === GLOBAL THEME BLUE SKY === */
+        body {
+            background: #e9f3ff;
+            font-family: 'Poppins', sans-serif;
+        }
 
-/* ==== SIDEBAR ==== */
-.sidebar {
-    width: 260px;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: linear-gradient(90deg, #0099ff, #66ccff);
-    overflow-y: auto;
-    z-index: 9999;
-    padding-top: 80px;
-    transition: .3s ease;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
-}
+        /* ==== SIDEBAR ==== */
+        .sidebar {
+            background: linear-gradient(180deg, #1a73e8, #4ea8ff);
+            border-right: none;
+        }
 
-.sidebar.closed {
-    width: 80px;
-}
+        .sidebar .nav-link {
+            color: #fff;
+            transition: 0.3s;
+            border-radius: 8px;
+        }
 
-.sidebar .nav-link {
-    color: #fff;
-    font-size: 15px;
-    padding: 12px 18px;
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-    transition: 0.3s;
-    border-radius: 8px;
-}
+        .sidebar .nav-link:hover {
+            background: rgba(255, 255, 255, 0.18);
+            transform: scale(1.03);
+        }
 
-.sidebar .nav-link i {
-    font-size: 21px;
-    margin-right: 14px;
-    transition: 0.3s;
-}
+        .sidebar .menu-title {
+            font-weight: 600;
+        }
 
-.sidebar .nav-link:hover {
-    background: rgba(255,255,255,0.15);
-    padding-left: 25px;
-}
+        .nav-profile-text span {
+            color: #fff !important;
+        }
 
-.sidebar .nav-link:hover i {
-    transform: rotate(20deg) scale(1.1);
-}
+        /* ===== SIDEBAR BASE ===== */
+        .sidebar {
+            width: 240px;
+            height: 100vh;
+            background: #0d6efd;
+            /* biru admin */
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 70px;
+            overflow-y: auto;
+            transition: 0.35s ease;
+            z-index: 999;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
+        }
 
-.sidebar.closed .nav-link span {
-    display: none;
-}
+        /* ===== CLOSED MODE ===== */
+        .sidebar.closed {
+            width: 70px;
+        }
 
-/* NAV TOP */
-.navbar-menu-wrapper {
-    background: linear-gradient(90deg, #0099ff, #66ccff) !important;
-    padding: 0 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
+        /* ===== ITEM MENU ===== */
+        .sidebar .nav-link {
+            color: #fff;
+            font-size: 15px;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            transition: 0.2s;
+        }
 
-/* MAIN PANEL FIX */
-.main-panel {
-    margin-left: 260px !important;
-    padding-right: 20px !important;
-}
+        .sidebar .nav-link i {
+            font-size: 21px;
+            margin-right: 14px;
+            transition: 0.3s;
+        }
 
-@media (max-width: 991px) {
-    .main-panel {
-        margin-left: 0 !important;
-    }
-}
+        /* ===== HOVER ===== */
+        .sidebar .nav-link:hover {
+            background: rgba(255, 255, 255, 0.15);
+            padding-left: 25px;
+            border-radius: 6px;
+        }
 
-/* CONTENT WRAPPER */
-.content-wrapper {
-    padding-left: 10px !important;
-    padding-right: 10px !important;
-    transition: .3s ease;
-}
+        /* ICON SPIN ANIMATION ON HOVER */
+        .sidebar .nav-link:hover i {
+            transform: rotate(20deg) scale(1.1);
+        }
 
-.sidebar.closed ~ .main-panel {
-    margin-left: 80px !important;
-}
+        /* HIDE TEXT IF CLOSED */
+        .sidebar.closed .nav-link span {
+            display: none;
+        }
 
-/* BUTTON */
-.btn-primary {
-    background: linear-gradient(135deg, #0066ff, #5ab6ff);
-    border: none;
-    transition: 0.3s;
-    border-radius: 10px;
-}
+        /* RESPONSIVE */
+        @media(max-width: 990px) {
+            .sidebar {
+                left: -250px;
+            }
 
-.btn-primary:hover {
-    transform: scale(1.08);
-    opacity: 0.9;
-}
+            .sidebar.open {
+                left: 0;
+            }
+        }
 
-/* Floating WA */
-.whatsapp-float {
-    position: fixed;
-    width: 67px;
-    height: 67px;
-    bottom: 25px;
-    right: 25px;
-    background: linear-gradient(145deg, #25d366, #20ba5a);
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 36px;
-    color: #fff;
-    z-index: 100;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    transition: 0.3s;
-}
 
-.whatsapp-float:hover {
-    transform: scale(1.15);
-    box-shadow: 0 0 18px rgba(37,211,102,0.7);
-}
+        /* NAV TOP */
+        .navbar {
+            background: #f8faff;
+            border-bottom: 2px solid #d5e3ff;
+        }
 
-/* Animation */
-.main-panel, .card, .navbar, .sidebar {
-    animation: fadeInUp 0.6s ease forwards;
-    opacity: 0;
-}
+        .btn-danger {
+            border-radius: 8px;
+        }
 
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(15px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
+        .btn-danger:hover {
+            transform: scale(1.05);
+        }
 
+        /* ==== BUTTON ==== */
+        .btn-primary {
+            background: linear-gradient(135deg, #0066ff, #5ab6ff);
+            border: none;
+            transition: 0.3s;
+            border-radius: 10px;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.08);
+            opacity: 0.9;
+        }
+
+        .btn-outline-primary {
+            border-radius: 10px;
+            border-color: #0066ff;
+        }
+
+        .btn-outline-primary:hover {
+            background: #0066ff !important;
+            color: #fff;
+        }
+
+        /* ==== SIDEBAR FIX ==== */
+        .sidebar {
+            width: 260px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: linear-gradient(90deg, #0099ff, #66ccff);
+            overflow-y: auto;
+            z-index: 9999;
+            padding-top: 80px;
+            transition: .3s ease;
+        }
+
+        /* Konten geser otomatis ke kanan */
+        .content-wrapper {
+            margin-left: 260px;
+            transition: .3s ease;
+        }
+
+        /* ====== mode collapse ===== */
+        .sidebar.closed {
+            width: 80px;
+        }
+
+        .sidebar.closed .menu-text {
+            display: none;
+        }
+
+        .content-wrapper.shifted {
+            margin-left: 80px;
+        }
+
+        /* Biar konten tidak menimpa sidebar di layar kecil */
+        @media(max-width: 992px) {
+            .sidebar {
+                left: -260px;
+                /* tersembunyi */
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            .content-wrapper {
+                margin-left: 0 !important;
+            }
+        }
+
+        .navbar-menu-wrapper {
+            background: linear-gradient(90deg, #0099ff, #66ccff) !important;
+            display: flex;
+            align-items: stretch;
+            padding: 0 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: .3s ease;
+        }
+
+
+
+        /* Floating WhatsApp ( improved ) */
+        .whatsapp-float {
+            position: fixed;
+            width: 67px;
+            height: 67px;
+            bottom: 25px;
+            right: 25px;
+            background: linear-gradient(145deg, #25d366, #20ba5a);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 36px;
+            color: #fff;
+            z-index: 100;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: 0.3s ease;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.15);
+            box-shadow: 0 0 18px rgba(37, 211, 102, 0.7);
+        }
+
+        /* Fade animation pada body */
+        .main-panel,
+        .card,
+        .navbar,
+        .sidebar {
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Untuk layar HP */
+        @media (max-width: 768px) {
+            .sidebar-wrapper {
+                position: fixed;
+                left: -260px;
+                top: 0;
+                height: 100vh;
+                width: 260px !important;
+                background: white;
+                z-index: 9999;
+                transition: all .3s ease;
+            }
+
+            .sidebar-wrapper.open {
+                left: 0 !important;
+            }
+
+            /* Saat sidebar terbuka → konten tidak terdorong terlalu jauh */
+            .content-wrapper {
+                margin-left: 0 !important;
+            }
+        }
     </style>
 </head>
 
@@ -213,6 +342,8 @@ body {
                         </a>
                     </div>
 
+
+
                     <div class="collapse ps-4 menu-collapse" id="aboutMenu">
                         <a href="{{ route('warga.create') }}" class="nav-link sub-item fw-semibold text-dark">
                             <i class="bi bi-plus-circle-fill text-success me-2"></i> Tambah Data Warga
@@ -220,7 +351,7 @@ body {
                     </div>
                 </li>
 
-                <!-- Data Destinasi dropdown -->
+                <!-- Data Homestay dropdown -->
                 <li class="nav-item">
                     <a class="nav-link d-flex justify-content-between align-items-center fw-bold"
                         data-bs-toggle="collapse" href="#destinasiMenu" role="button">
@@ -264,6 +395,9 @@ body {
             </ul>
         </nav>
 
+
+        <!-- End Sidebar -->
+
         <!-- Main Content -->
         <div class="container-fluid page-body-wrapper">
             <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
@@ -283,49 +417,18 @@ body {
 
             <div class="main-panel">
                 <div class="content-wrapper pb-0">
-
-                    <!-- 3 Menu Card (placed inside content-wrapper for correct layout) -->
-                    <div class="row mt-4">
-                        <!-- CARD WARGA -->
-                        <div class="col-md-4 mb-4">
-                            <div class="card shadow-lg border-0 rounded-4 menu-card animate__animated animate__fadeInUp"
-                                onclick="window.location.href='{{ route('warga.index') }}'">
-                                <div class="card-body text-center py-4">
-                                    <i class="bi bi-people-fill text-primary" style="font-size: 55px;"></i>
-                                    <h4 class="mt-3 fw-bold text-dark">Data Warga</h4>
-                                    <p class="text-muted">Kelola seluruh data warga</p>
-                                    <button class="btn btn-primary px-4 mt-2">Lihat Data</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- CARD DESTINASI -->
-                        <div class="col-md-4 mb-4">
-                            <div class="card shadow-lg border-0 rounded-4 menu-card animate__animated animate__fadeInUp"
-                                onclick="window.location.href='{{ route('destinasi.index') }}'">
-                                <div class="card-body text-center py-4">
-                                    <i class="bi bi-map-fill text-success" style="font-size: 55px;"></i>
-                                    <h4 class="mt-3 fw-bold text-dark">Data Destinasi</h4>
-                                    <p class="text-muted">Kelola tempat wisata desa</p>
-                                    <button class="btn btn-success px-4 mt-2">Lihat Data</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- CARD HOMESTAY -->
-                        <div class="col-md-4 mb-4">
-                            <div class="card shadow-lg border-0 rounded-4 menu-card animate__animated animate__fadeInUp"
-                                onclick="window.location.href='{{ route('homestay.index') }}'">
-                                <div class="card-body text-center py-4">
-                                    <i class="bi bi-house-fill text-info" style="font-size: 55px;"></i>
-                                    <h4 class="mt-3 fw-bold text-dark">Data Homestay</h4>
-                                    <p class="text-muted">Kelola data homestay & kamar</p>
-                                    <button class="btn btn-info text-white px-4 mt-2">Lihat Data</button>
-                                </div>
-                            </div>
+                    <div class="page-header flex-wrap">
+                        <div class="header-left">
+                            <button class="btn btn-primary mb-2 mb-md-0 mr-2"
+                                onclick="window.location.href='/warga/create'">
+                                Tambahkan Data Warga
+                            </button>
+                            <button class="btn btn-outline-primary bg-white mb-2 mb-md-0"
+                                onclick="window.location.href='/destinasi'">
+                                Tambah data Pariwisata & HomeStay
+                            </button>
                         </div>
                     </div>
-                    <!-- END 3 MENU CARD -->
 
                     <div class="row">
                         <div class="col-xl-9 stretch-card grid-margin">
@@ -359,34 +462,38 @@ body {
                         </div>
                     </div>
 
-                </div> <!-- content-wrapper -->
-            </div> <!-- main-panel -->
-        </div> <!-- page-body-wrapper -->
+                </div>
+            </div>
 
-        <!-- Floating WhatsApp -->
-        <a href="https://wa.me/6281365782010?text=Halo%20Admin,%20saya%20ingin%20bertanya%20tentang%20Pariwisata."
-            class="whatsapp-float" target="_blank">
-            <i class="mdi mdi-whatsapp whatsapp-icon"></i>
-        </a>
+            <!-- Floating WhatsApp -->
+            <a href="https://wa.me/6281365782010?text=Halo%20Admin,%20saya%20ingin%20bertanya%20tentang%20Pariwisata."
+                class="whatsapp-float" target="_blank">
+                <i class="mdi mdi-whatsapp whatsapp-icon"></i>
+            </a>
 
-        <!-- JS (keep your original template scripts) -->
-        <script src="assets-admin/vendors/js/vendor.bundle.base.js"></script>
-        <script src="assets-admin/js/off-canvas.js"></script>
-        <script src="assets-admin/js/misc.js"></script>
+            <!-- JS -->
+            <script src="assets-admin/vendors/js/vendor.bundle.base.js"></script>
+            <script src="assets-admin/js/off-canvas.js"></script>
+            <script src="assets-admin/js/misc.js"></script>
 
-        <!-- small script: make entire card keyboard-accessible (optional) -->
-        <script>
-            document.querySelectorAll('.menu-card').forEach(card => {
-                card.setAttribute('tabindex', '0');
-                card.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        this.click();
-                    }
-                });
-            });
-        </script>
-
-    </div> <!-- container-scroller -->
 </body>
+
+<script>
+    const button = document.getElementById("toggleSidebar");
+    const sidebar = document.querySelector(".sidebar-wrapper");
+
+    button.addEventListener("click", () => {
+
+        // Mobile mode
+        if (window.innerWidth <= 768) {
+            sidebar.classList.toggle("open");
+            return;
+        }
+
+        // Desktop mode
+        sidebar.classList.toggle("closed");
+        document.querySelector(".content-wrapper").classList.toggle("shifted");
+    });
+</script>
 
 </html>
