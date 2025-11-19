@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 // 🔥 Tambahkan ini saja!
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/dashboard-home', [DashboardController::class, 'index'])->name('dashboard');
+
 
 Route::get('/', [AuthController::class, 'index'])->name('auth.index');
 Route::post('/auth/login', [AuthController::class, 'login'])->name('auth.login');

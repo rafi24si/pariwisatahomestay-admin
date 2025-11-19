@@ -361,7 +361,7 @@
 
                     <div class="collapse ps-4 menu-collapse" id="homestayMenu">
                         <a href="{{ route('homestay.index') }}" class="nav-link sub-item fw-semibold text-dark">
-                            <i class="bi bi-collection-fill me-2 text-primary"></i> Data Destinasi
+                            <i class="bi bi-collection-fill me-2 text-primary"></i> Data Homestay
                         </a>
                         <a href="{{ route('homestay.create') }}" class="nav-link sub-item fw-semibold text-dark">
                             <i class="bi bi-plus-circle-fill text-success me-2"></i> Tambah Homestay
