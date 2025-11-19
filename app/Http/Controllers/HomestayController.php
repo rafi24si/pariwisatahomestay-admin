@@ -11,27 +11,18 @@ use Illuminate\Support\Facades\Storage;
 
 class HomestayController extends Controller
 {
-    // ======================================
-    // INDEX
-    // ======================================
     public function index()
     {
         $homestays = Homestay::with('media')->get();
         return view('homestay.index', compact('homestays'));
     }
 
-    // ======================================
-    // CREATE
-    // ======================================
     public function create()
     {
         $warga = Warga::all();
         return view('homestay.create', compact('warga'));
     }
 
-    // ======================================
-    // STORE (SAVE)
-    // ======================================
     public function store(Request $request)
     {
         $request->validate([
@@ -49,10 +40,8 @@ class HomestayController extends Controller
         DB::beginTransaction();
 
         try {
-            // Simpan fasilitas sebagai JSON
             $fasilitasJson = json_encode($request->fasilitas ?? []);
 
-            // Insert homestay
             $homestay = Homestay::create([
                 'pemilik_warga_id' => $request->pemilik_warga_id,
                 'nama'             => $request->nama,
@@ -64,9 +53,8 @@ class HomestayController extends Controller
                 'status'           => $request->status,
             ]);
 
-            // Upload Foto Media
             if ($request->hasFile('foto')) {
-                foreach ($request->file('foto') as $index => $file) {
+                foreach ($request->file('foto') as $i => $file) {
 
                     $path = $file->store('uploads/homestay', 'public');
 
@@ -74,16 +62,15 @@ class HomestayController extends Controller
                         'ref_table'  => 'homestay',
                         'ref_id'     => $homestay->homestay_id,
                         'file_url'   => $path,
-                        'caption'    => 'Foto Homestay ' . ($index + 1),
+                        'caption'    => 'Foto Homestay ' . ($i + 1),
                         'mime_type'  => $file->getMimeType(),
-                        'sort_order' => $index,
+                        'sort_order' => $i,
                     ]);
                 }
             }
 
             DB::commit();
-            return redirect()->route('homestay.index')
-                ->with('success', 'Homestay berhasil ditambahkan!');
+            return redirect()->route('homestay.index')->with('success', 'Homestay berhasil ditambahkan!');
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -91,32 +78,24 @@ class HomestayController extends Controller
         }
     }
 
-    // ======================================
-    // SHOW
-    // ======================================
     public function show($id)
     {
-        $data = Homestay::with('media')->findOrFail($id);
-        return view('homestay.show', compact('data'));
+        $homestay = Homestay::with('media')->findOrFail($id);
+        return view('homestay.show', compact('homestay'));
     }
 
-    // ======================================
-    // EDIT
-    // ======================================
     public function edit($id)
     {
-        $data  = Homestay::findOrFail($id);
-        $warga = Warga::all();
+        $homestay = Homestay::findOrFail($id);
+        $warga    = Warga::all();
 
-        // decode fasilitas
-        $data->fasilitas = json_decode($data->fasilitas_json, true) ?? [];
+        // decode fasilitas_json → array
+        $homestay->fasilitas = json_decode($homestay->fasilitas_json, true) ?? [];
 
-        return view('homestay.edit', compact('data', 'warga'));
+        // kirim 2 variabel
+        return view('homestay.edit', compact('homestay', 'warga'));
     }
 
-    // ======================================
-    // UPDATE
-    // ======================================
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -136,7 +115,6 @@ class HomestayController extends Controller
         try {
             $homestay = Homestay::findOrFail($id);
 
-            // Simpan fasilitas
             $fasilitasJson = json_encode($request->fasilitas ?? []);
 
             $homestay->update([
@@ -150,7 +128,6 @@ class HomestayController extends Controller
                 'status'           => $request->status,
             ]);
 
-            // Jika upload foto baru → hapus foto lama
             if ($request->hasFile('foto')) {
 
                 foreach ($homestay->media as $m) {
@@ -158,7 +135,7 @@ class HomestayController extends Controller
                     $m->delete();
                 }
 
-                foreach ($request->file('foto') as $index => $file) {
+                foreach ($request->file('foto') as $i => $file) {
 
                     $path = $file->store('uploads/homestay', 'public');
 
@@ -166,17 +143,15 @@ class HomestayController extends Controller
                         'ref_table'  => 'homestay',
                         'ref_id'     => $homestay->homestay_id,
                         'file_url'   => $path,
-                        'caption'    => 'Foto Homestay ' . ($index + 1),
+                        'caption'    => 'Foto Homestay ' . ($i + 1),
                         'mime_type'  => $file->getMimeType(),
-                        'sort_order' => $index,
+                        'sort_order' => $i,
                     ]);
                 }
             }
 
             DB::commit();
-
-            return redirect()->route('homestay.index')
-                ->with('success', 'Homestay berhasil diperbarui!');
+            return redirect()->route('homestay.index')->with('success', 'Homestay berhasil diperbarui!');
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -184,21 +159,17 @@ class HomestayController extends Controller
         }
     }
 
-    // ======================================
-    // DELETE
-    // ======================================
     public function destroy($id)
     {
-        $data = Homestay::findOrFail($id);
+        $homestay = Homestay::findOrFail($id);
 
-        foreach ($data->media as $m) {
+        foreach ($homestay->media as $m) {
             Storage::disk('public')->delete($m->file_url);
             $m->delete();
         }
 
-        $data->delete();
+        $homestay->delete();
 
-        return redirect()->route('homestay.index')
-            ->with('success', 'Homestay berhasil dihapus!');
+        return redirect()->route('homestay.index')->with('success', 'Homestay berhasil dihapus!');
     }
 }
