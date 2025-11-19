@@ -293,107 +293,271 @@
                 margin-left: 0 !important;
             }
         }
+
+        /* SIDEBAR MODERN */
+        .sidebar {
+            width: 260px;
+            background: #ffffff;
+            height: 100vh;
+            transition: all .3s ease;
+            border-right: 1px solid #e6e6e6;
+            position: fixed;
+        }
+
+        /* TOGGLE: SIDEBAR MENYEMPIT */
+        .sidebar.collapsed {
+            width: 80px;
+        }
+
+        .sidebar.collapsed .menu-title,
+        .sidebar.collapsed .sub-item,
+        .sidebar.collapsed .nav-profile-text {
+            display: none;
+        }
+
+        .sidebar.collapsed .nav-profile-image img {
+            width: 45px;
+            height: 45px;
+        }
+
+        /* SUBITEM */
+        .sub-item {
+            padding-left: 40px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .sub-item:hover {
+            background: #f3f3f3;
+        }
+
+        /* ROTATE ARROW */
+        .rotate-icon {
+            transition: .3s;
+        }
+
+        .menu-toggle.collapsed .rotate-icon {
+            transform: rotate(-90deg);
+        }
+
+        /* TOGGLE BUTTON */
+        .sidebar-toggle-btn {
+            position: fixed;
+            top: 15px;
+            left: 270px;
+            background: #ffffff;
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: .3s;
+            z-index: 999;
+        }
+
+        .sidebar.collapsed+.sidebar-toggle-btn {
+            left: 90px;
+        }
+
+        /* SUPAYA CARD TIDAK KELUAR AREA */
+        .content-wrapper {
+            padding: 20px !important;
+            overflow-x: hidden !important;
+        }
+
+        /* FIX GRID BOOTSTRAP SUPAYA RAPI */
+        .row {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
+
+        /* CARD TIDAK MENDORONG KE SAMPING */
+        .feature-box,
+        .card {
+            width: 100%;
+        }
+
+        /* BATAS LEBAR HALAMAN SUPAYA TIDAK MELEBAR KE KANAN */
+        .main-panel {
+            max-width: 90% !important;
+        }
+
+        /* Feature card styles */
+.feature-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #fff;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 6px 18px rgba(16,24,40,0.06);
+  border: 1px solid rgba(16,24,40,0.04);
+  transition: transform .18s ease, box-shadow .18s ease;
+  overflow: hidden;
+}
+
+.feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(16,24,40,0.08);
+}
+
+/* Header area: logo left, small icon right */
+.feature-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.feature-logo {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(0,0,0,0.02), rgba(0,0,0,0.01));
+  box-shadow: inset 0 -1px 0 rgba(255,255,255,0.6);
+}
+
+/* small action icon (ke kiri pada desain lama) */
+.feature-action i {
+  font-size: 20px;
+  opacity: 0.9;
+}
+
+/* Body takes available space so buttons align bottom */
+.feature-card-body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* Footer aligned bottom */
+.feature-card-footer {
+  margin-top: 12px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 12px;
+  border-top: 1px dashed rgba(16,24,40,0.03);
+  padding-top: 12px;
+}
+
+.feature-card-footer .meta {
+  font-size: 0.9rem;
+  color: #475569;
+}
+
+/* Button full width and rounded */
+.feature-card .btn {
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+/* small responsive tweak if needed */
+@media (max-width: 575.98px) {
+  .feature-card { padding: 14px; }
+  .feature-logo { width: 44px; height: 44px; }
+}
+
     </style>
 </head>
 
 <body>
     <div class="container-scroller">
         <!-- Sidebar -->
+        <!-- SIDEBAR + TOGGLE BUTTON -->
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
-            <ul class="nav">
 
-                <!-- Profile -->
+            <!-- PROFILE SECTION -->
+            <ul class="nav">
                 <li class="nav-item nav-profile border-bottom">
-                    <a href="#" class="nav-link flex-column">
+                    <a href="#" class="nav-link flex-column text-center">
                         <div class="nav-profile-image">
-                            <img src="assets-admin/images/faces/face1.jpg" alt="profile" />
+                            <img src="assets-admin/images/faces/face1.jpg" alt="profile" class="rounded-circle" />
                         </div>
-                        <div class="nav-profile-text d-flex ml-0 mb-3 flex-column">
-                            <span class="font-weight-semibold mb-1 mt-2 text-center text-dark">Muhammad Rafi</span>
-                            <span class="text-secondary icon-sm text-center">Rp.32.000</span>
+                        <div class="nav-profile-text mt-2">
+                            <span class="fw-bold text-dark">Muhammad Rafi</span>
+                            <span class="text-secondary small d-block">Rp.32.000</span>
                         </div>
                     </a>
                 </li>
 
-                <!-- Dashboard -->
+                <!-- DASHBOARD -->
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('admin.dashboard') }}">
                         <i class="bi bi-speedometer2 me-2 text-primary"></i>
-                        <span class="menu-title text-dark fw-semibold">Dashboard</span>
+                        <span class="menu-title">Dashboard</span>
                     </a>
                 </li>
 
-                <!-- Tentang Kami dropdown -->
+                <!-- WARGA -->
                 <li class="nav-item">
-                    <a class="nav-link d-flex justify-content-between align-items-center fw-bold"
-                        data-bs-toggle="collapse" href="#aboutMenu" role="button">
-                        <span class="d-flex align-items-center">
-                            <i class="bi bi-person-heart me-2 text-warning"></i>
-                            <span class="text-dark fw-semibold"> Warga</span>
-                        </span>
-                        <i class="bi bi-chevron-down rotate-icon text-dark"></i>
+                    <a class="nav-link menu-toggle d-flex justify-content-between align-items-center"
+                        data-bs-toggle="collapse" href="#menuWarga">
+                        <span><i class="bi bi-person-heart me-2 text-warning"></i> Warga</span>
+                        <i class="bi bi-chevron-down rotate-icon"></i>
                     </a>
 
-                    <div class="collapse ps-4 menu-collapse" id="aboutMenu">
-                        <a href="{{ route('warga.index') }}" class="nav-link sub-item fw-semibold text-dark">
-                            <i class="bi bi-people-fill me-1 text-primary"></i>
-                            <i class=""></i>
-                            Data Warga
+                    <div class="collapse menu-collapse" id="menuWarga">
+                        <a href="{{ route('warga.index') }}" class="nav-link sub-item">
+                            <i class="bi bi-people-fill text-primary me-2"></i> Data Warga
                         </a>
-                    </div>
 
-
-
-                    <div class="collapse ps-4 menu-collapse" id="aboutMenu">
-                        <a href="{{ route('warga.create') }}" class="nav-link sub-item fw-semibold text-dark">
-                            <i class="bi bi-plus-circle-fill text-success me-2"></i> Tambah Data Warga
+                        <a href="{{ route('warga.create') }}" class="nav-link sub-item">
+                            <i class="bi bi-plus-circle-fill text-success me-2"></i> Tambah Data
                         </a>
                     </div>
                 </li>
 
-                <!-- Data Homestay dropdown -->
+                <!-- DESTINASI -->
                 <li class="nav-item">
-                    <a class="nav-link d-flex justify-content-between align-items-center fw-bold"
-                        data-bs-toggle="collapse" href="#destinasiMenu" role="button">
-                        <span class="d-flex align-items-center">
-                            <i class="bi bi-map-fill me-2 text-info"></i>
-                            <span class="text-dark fw-semibold">Destinasi</span>
-                        </span>
-                        <i class="bi bi-chevron-down rotate-icon text-dark"></i>
+                    <a class="nav-link menu-toggle d-flex justify-content-between align-items-center"
+                        data-bs-toggle="collapse" href="#menuDestinasi">
+                        <span><i class="bi bi-map-fill me-2 text-info"></i> Destinasi</span>
+                        <i class="bi bi-chevron-down rotate-icon"></i>
                     </a>
 
-                    <div class="collapse ps-4 menu-collapse" id="destinasiMenu">
-                        <a href="{{ route('destinasi.index') }}" class="nav-link sub-item fw-semibold text-dark">
-                            <i class="bi bi-collection-fill me-2 text-primary"></i> Data Destinasi
+                    <div class="collapse menu-collapse" id="menuDestinasi">
+                        <a href="{{ route('destinasi.index') }}" class="nav-link sub-item">
+                            <i class="bi bi-collection-fill text-primary me-2"></i> Data Destinasi
                         </a>
-                        <a href="{{ route('destinasi.create') }}" class="nav-link sub-item fw-semibold text-dark">
+
+                        <a href="{{ route('destinasi.create') }}" class="nav-link sub-item">
                             <i class="bi bi-plus-circle-fill text-success me-2"></i> Tambah Destinasi
                         </a>
                     </div>
                 </li>
 
+                <!-- HOMESTAY -->
                 <li class="nav-item">
-                    <a class="nav-link d-flex justify-content-between align-items-center fw-bold"
-                        data-bs-toggle="collapse" href="#homestayMenu" role="button">
-                        <span class="d-flex align-items-center">
-                            <i class="bi bi-house-fill me-2-info"></i>
-                            <span class="text-dark fw-semibold">Homestay</span>
-                        </span>
-                        <i class="bi bi-chevron-down rotate-icon text-dark"></i>
+                    <a class="nav-link menu-toggle d-flex justify-content-between align-items-center"
+                        data-bs-toggle="collapse" href="#menuHomestay">
+                        <span><i class="bi bi-house-fill me-2 text-primary"></i> Homestay</span>
+                        <i class="bi bi-chevron-down rotate-icon"></i>
                     </a>
 
-                    <div class="collapse ps-4 menu-collapse" id="homestayMenu">
-                        <a href="{{ route('homestay.index') }}" class="nav-link sub-item fw-semibold text-dark">
-                            <i class="bi bi-collection-fill me-2 text-primary"></i> Data Homestay
+                    <div class="collapse menu-collapse" id="menuHomestay">
+                        <a href="{{ route('homestay.index') }}" class="nav-link sub-item">
+                            <i class="bi bi-collection-fill text-primary me-2"></i> Data Homestay
                         </a>
-                        <a href="{{ route('homestay.create') }}" class="nav-link sub-item fw-semibold text-dark">
+
+                        <a href="{{ route('homestay.create') }}" class="nav-link sub-item">
                             <i class="bi bi-plus-circle-fill text-success me-2"></i> Tambah Homestay
                         </a>
                     </div>
                 </li>
-
             </ul>
         </nav>
+
+        <!-- TOGGLE BUTTON (atas sidebar) -->
+        <button id="sidebarToggle" class="sidebar-toggle-btn">
+            <i class="bi bi-list"></i>
+        </button>
+
 
 
         <!-- End Sidebar -->
@@ -417,64 +581,191 @@
 
             <div class="main-panel">
                 <div class="content-wrapper pb-0">
-                    <div class="page-header flex-wrap">
-                        <div class="header-left">
-                            <button class="btn btn-primary mb-2 mb-md-0 mr-2"
-                                onclick="window.location.href='/warga/create'">
-                                Tambahkan Data Warga
-                            </button>
-                            <button class="btn btn-outline-primary bg-white mb-2 mb-md-0"
-                                onclick="window.location.href='/destinasi'">
-                                Tambah data Pariwisata & HomeStay
-                            </button>
-                        </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="col-xl-9 stretch-card grid-margin">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="card-title mb-0">Pendapatan HomeStay dan Pariwisata</div>
-                                    <h3 class="font-weight-bold mb-0">Rp.23.543.032</h3>
-                                    <p class="text-muted mt-2">Statistik pemasukan sementara</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- SECTION: CARD WARGA / DESTINASI / HOMESTAY -->
+                    <!-- Redesigned Cards with Logos -->
+                    <div class="row mb-4 align-items-stretch">
 
-                    <div class="row">
-                        <div class="col-xl-4 grid-margin">
-                            <div class="card card-stat stretch-card mb-3">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between">
-                                        <div class="text-white">
-                                            <h3 class="font-weight-bold mb-0">$168.90</h3>
-                                            <h6>This Month</h6>
-                                            <div class="badge badge-danger">23%</div>
-                                        </div>
-                                        <div class="flot-bar-wrapper">
-                                            <div id="column-chart" class="flot-chart"></div>
-                                        </div>
+                        <!-- CARD WARGA -->
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <article class="feature-card">
+                                <div class="feature-card-header">
+                                    <!-- Logo (SVG placeholder) -->
+                                    <div class="feature-logo">
+                                        <!-- Replace SVG with <img src="/path/to/logo-warga.png"> if needed -->
+                                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
+                                            aria-hidden>
+                                            <circle cx="12" cy="8" r="3.2" stroke="#2563EB"
+                                                stroke-width="1.5" />
+                                            <path d="M4 20c0-3.2 3.6-5.6 8-5.6s8 2.4 8 5.6" stroke="#2563EB"
+                                                stroke-width="1.5" stroke-linecap="round" />
+                                        </svg>
+                                    </div>
+                                    <div class="feature-action">
+                                        <i class="bi bi-people-fill"></i>
                                     </div>
                                 </div>
-                            </div>
 
+                                <div class="feature-card-body">
+                                    <h4 class="fw-bold mb-1">Data Warga</h4>
+                                    <p class="text-muted small mb-3">Kelola informasi warga secara lengkap</p>
+                                    <a href="{{ route('warga.index') }}" class="btn btn-primary btn-sm w-100">Lihat
+                                        Data Warga</a>
+                                </div>
+
+                                <div class="feature-card-footer">
+                                    <span class="meta">Total: <strong>124</strong></span>
+                                </div>
+                            </article>
                         </div>
+
+                        <!-- CARD DESTINASI -->
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <article class="feature-card">
+                                <div class="feature-card-header">
+                                    <div class="feature-logo">
+                                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
+                                            aria-hidden>
+                                            <path d="M12 2L20 8v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V8l7-6z"
+                                                stroke="#10B981" stroke-width="1.5" stroke-linejoin="round" />
+                                            <circle cx="12" cy="12" r="2" stroke="#10B981"
+                                                stroke-width="1.2" />
+                                        </svg>
+                                    </div>
+                                    <div class="feature-action">
+                                        <i class="bi bi-map-fill"></i>
+                                    </div>
+                                </div>
+
+                                <div class="feature-card-body">
+                                    <h4 class="fw-bold mb-1">Data Destinasi</h4>
+                                    <p class="text-muted small mb-3">Manajemen tempat wisata desa</p>
+                                    <a href="{{ route('destinasi.index') }}"
+                                        class="btn btn-success btn-sm w-100">Lihat Data Destinasi</a>
+                                </div>
+
+                                <div class="feature-card-footer">
+                                    <span class="meta">Total: <strong>32</strong></span>
+                                </div>
+                            </article>
+                        </div>
+
+                        <!-- CARD HOMESTAY -->
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <article class="feature-card">
+                                <div class="feature-card-header">
+                                    <div class="feature-logo">
+                                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
+                                            aria-hidden>
+                                            <path d="M3 11.5L12 4l9 7.5" stroke="#0EA5E9" stroke-width="1.5"
+                                                stroke-linejoin="round" />
+                                            <rect x="6" y="11.5" width="12" height="8" rx="1"
+                                                stroke="#0EA5E9" stroke-width="1.2" />
+                                        </svg>
+                                    </div>
+                                    <div class="feature-action">
+                                        <i class="bi bi-house-fill"></i>
+                                    </div>
+                                </div>
+
+                                <div class="feature-card-body">
+                                    <h4 class="fw-bold mb-1">Data Homestay</h4>
+                                    <p class="text-muted small mb-3">Kelola pemilik dan kamar homestay</p>
+                                    <a href="{{ route('homestay.index') }}" class="btn btn-info btn-sm w-100">Lihat
+                                        Data Homestay</a>
+                                </div>
+
+                                <div class="feature-card-footer">
+                                    <span class="meta">Total: <strong>18</strong></span>
+                                </div>
+                            </article>
+                        </div>
+
                     </div>
 
-                </div>
-            </div>
 
-            <!-- Floating WhatsApp -->
-            <a href="https://wa.me/6281365782010?text=Halo%20Admin,%20saya%20ingin%20bertanya%20tentang%20Pariwisata."
-                class="whatsapp-float" target="_blank">
-                <i class="mdi mdi-whatsapp whatsapp-icon"></i>
-            </a>
+                    <!-- SECTION: TOTAL CARD -->
+                    <div class="row g-4 mb-5">
 
-            <!-- JS -->
-            <script src="assets-admin/vendors/js/vendor.bundle.base.js"></script>
-            <script src="assets-admin/js/off-canvas.js"></script>
-            <script src="assets-admin/js/misc.js"></script>
+                        <div class="col-md-4">
+                            <div class="card shadow rounded-4 p-3 text-center">
+                                <h5 class="fw-bold">Total Warga</h5>
+                                <p class="display-6 fw-bold text-primary">124</p>
+                                <a href="#" class="btn btn-primary btn-sm mt-2">Kelola Warga</a>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card shadow rounded-4 p-3 text-center">
+                                <h5 class="fw-bold">Total Destinasi</h5>
+                                <p class="display-6 fw-bold text-success">32</p>
+                                <a href="#" class="btn btn-success btn-sm mt-2">Kelola Destinasi</a>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card shadow rounded-4 p-3 text-center">
+                                <h5 class="fw-bold">Total Homestay</h5>
+                                <p class="display-6 fw-bold text-warning">18</p>
+                                <a href="#" class="btn btn-warning btn-sm mt-2">Kelola Homestay</a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- SECTION: FITUR ADMIN -->
+                    <div class="row g-4">
+
+                        <div class="col-md-3">
+                            <div class="card shadow-sm p-3 text-center rounded-4">
+                                <i class="bi bi-people-fill fs-2 text-primary"></i>
+                                <h6 class="fw-bold mt-2">Manajemen User</h6>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="card shadow-sm p-3 text-center rounded-4">
+                                <i class="bi bi-gear-fill fs-2 text-secondary"></i>
+                                <h6 class="fw-bold mt-2">Pengaturan Sistem</h6>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="card shadow-sm p-3 text-center rounded-4">
+                                <i class="bi bi-card-checklist fs-2 text-success"></i>
+                                <h6 class="fw-bold mt-2">Laporan & Statistik</h6>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="card shadow-sm p-3 text-center rounded-4">
+                                <i class="bi bi-cloud-arrow-up-fill fs-2 text-info"></i>
+                                <h6 class="fw-bold mt-2">Backup Data</h6>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div><!-- content-wrapper -->
+            </div><!-- main-panel -->
+        </div>
+        !-- main-panel -->
+
+
+
+
+
+
+        <!-- Floating WhatsApp -->
+        <a href="https://wa.me/6281365782010?text=Halo%20Admin,%20saya%20ingin%20bertanya%20tentang%20Pariwisata."
+            class="whatsapp-float" target="_blank">
+            <i class="mdi mdi-whatsapp whatsapp-icon"></i>
+        </a>
+
+        <!-- JS -->
+        <script src="assets-admin/vendors/js/vendor.bundle.base.js"></script>
+        <script src="assets-admin/js/off-canvas.js"></script>
+        <script src="assets-admin/js/misc.js"></script>
 
 </body>
 
@@ -496,5 +787,14 @@
     });
 </script>
 
-// mantappp sad asdasda
+<script>
+    const sidebar = document.getElementById("sidebar");
+    const toggleBtn = document.getElementById("sidebarToggle");
+
+    toggleBtn.addEventListener("click", () => {
+        sidebar.classList.toggle("collapsed");
+    });
+</script>
+
+
 </html>
