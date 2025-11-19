@@ -12,7 +12,7 @@ class WargaSeeder extends Seeder
     {
         $faker = Faker::create('id_ID');
 
-        for ($i = 0; $i < 200; $i++) {
+        for ($i = 0; $i < 20; $i++) {
             DB::table('warga')->insert([
                 'no_ktp'        => $faker->nik(),
                 'nama'          => $faker->name(),
