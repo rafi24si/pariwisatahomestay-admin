@@ -382,87 +382,117 @@
         }
 
         /* Feature card styles */
-.feature-card {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  background: #fff;
-  border-radius: 12px;
-  padding: 18px;
-  box-shadow: 0 6px 18px rgba(16,24,40,0.06);
-  border: 1px solid rgba(16,24,40,0.04);
-  transition: transform .18s ease, box-shadow .18s ease;
-  overflow: hidden;
-}
+        .feature-card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background: #fff;
+            border-radius: 12px;
+            padding: 18px;
+            box-shadow: 0 6px 18px rgba(16, 24, 40, 0.06);
+            border: 1px solid rgba(16, 24, 40, 0.04);
+            transition: transform .18s ease, box-shadow .18s ease;
+            overflow: hidden;
+        }
 
-.feature-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 30px rgba(16,24,40,0.08);
-}
+        .feature-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(16, 24, 40, 0.08);
+        }
 
-/* Header area: logo left, small icon right */
-.feature-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 8px;
-}
+        /* Header area: logo left, small icon right */
+        .feature-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
 
-.feature-logo {
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  background: linear-gradient(135deg, rgba(0,0,0,0.02), rgba(0,0,0,0.01));
-  box-shadow: inset 0 -1px 0 rgba(255,255,255,0.6);
-}
+        .feature-logo {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.01));
+            box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.6);
+        }
 
-/* small action icon (ke kiri pada desain lama) */
-.feature-action i {
-  font-size: 20px;
-  opacity: 0.9;
-}
+        /* small action icon (ke kiri pada desain lama) */
+        .feature-action i {
+            font-size: 20px;
+            opacity: 0.9;
+        }
 
-/* Body takes available space so buttons align bottom */
-.feature-card-body {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-}
+        /* Body takes available space so buttons align bottom */
+        .feature-card-body {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
 
-/* Footer aligned bottom */
-.feature-card-footer {
-  margin-top: 12px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 12px;
-  border-top: 1px dashed rgba(16,24,40,0.03);
-  padding-top: 12px;
-}
+        /* Footer aligned bottom */
+        .feature-card-footer {
+            margin-top: 12px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 12px;
+            border-top: 1px dashed rgba(16, 24, 40, 0.03);
+            padding-top: 12px;
+        }
 
-.feature-card-footer .meta {
-  font-size: 0.9rem;
-  color: #475569;
-}
+        .feature-card-footer .meta {
+            font-size: 0.9rem;
+            color: #475569;
+        }
 
-/* Button full width and rounded */
-.feature-card .btn {
-  border-radius: 999px;
-  padding: 8px 14px;
-  font-weight: 600;
-  box-shadow: none;
-}
+        /* Button full width and rounded */
+        .feature-card .btn {
+            border-radius: 999px;
+            padding: 8px 14px;
+            font-weight: 600;
+            box-shadow: none;
+        }
 
-/* small responsive tweak if needed */
-@media (max-width: 575.98px) {
-  .feature-card { padding: 14px; }
-  .feature-logo { width: 44px; height: 44px; }
-}
+        /* small responsive tweak if needed */
+        @media (max-width: 575.98px) {
+            .feature-card {
+                padding: 14px;
+            }
 
+            .feature-logo {
+                width: 44px;
+                height: 44px;
+            }
+        }
+
+        .dashboard-card {
+            background-color: #ffffff;
+            /* putih */
+            color: #333;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            border-radius: 1rem;
+            margin-bottom: 3rem;
+            /* jarak bawah */
+            transition: transform 0.3s;
+        }
+
+        .dashboard-card .card-item {
+            background-color: #f8f9fa;
+            border-radius: 0.75rem;
+            padding: 20px;
+            margin: 10px;
+            flex: 1 1 150px;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .dashboard-card .card-item:hover {
+            transform: translateY(-5px);
+            background-color: #e9ecef;
+        }
     </style>
 </head>
 
@@ -745,6 +775,32 @@
                         </div>
 
                     </div>
+
+                    <div class="row g-5 md-5 justify-content-center">
+                        <div class="dashboard-card mb-5 p-4 rounded-4 shadow-sm col-12 col-md-8">
+                            <h4 class="text-center mb-4">Ringkasan Pendapatan</h4>
+                            <div class="d-flex justify-content-around flex-wrap text-center">
+                                <div class="card-item p-3 m-2 flex-fill">
+                                    <i class="bi bi-house-fill fs-2 text-warning mb-2"></i>
+                                    <h6>Homestay</h6>
+                                    <p>Rp {{ number_format($pendapatanHomestay ?? 0, 0, ',', '.') }}</p>
+                                </div>
+                                <div class="card-item p-3 m-2 flex-fill">
+                                    <i class="bi bi-map-fill fs-2 text-danger mb-2"></i>
+                                    <h6>Pariwisata</h6>
+                                    <p>Rp {{ number_format($pendapatanPariwisata ?? 0, 0, ',', '.') }}</p>
+                                </div>
+                                <div class="card-item p-3 m-2 flex-fill">
+                                    <i class="bi bi-currency-dollar fs-2 text-info mb-2"></i>
+                                    <h6>Total</h6>
+                                    <p>Rp
+                                        {{ number_format(($pendapatanHomestay ?? 0) + ($pendapatanPariwisata ?? 0), 0, ',', '.') }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
 
                 </div><!-- content-wrapper -->
             </div><!-- main-panel -->
