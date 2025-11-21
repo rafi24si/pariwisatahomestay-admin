@@ -1,10 +1,8 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Homestay;
 use App\Models\KamarHomestay;
-use App\Models\Media;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -12,57 +10,48 @@ class KamarHomestayController extends Controller
 {
     public function index()
     {
-        $data = KamarHomestay::with('homestay', 'media')->latest()->get();
+        $data = KamarHomestay::with('homestay')->paginate(10);
         return view('kamar.index', compact('data'));
     }
 
     public function create()
     {
-        $homestay = Homestay::all();
-        return view('kamar.create', compact('homestay'));
+        $homestays = Homestay::all();
+        return view('kamar.create', compact('homestays'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'homestay_id' => 'required',
-            'nama_kamar' => 'required',
-            'kapasitas' => 'required|numeric',
-            'harga' => 'required|numeric',
-            'fasilitas_json' => 'nullable|string',
-            'foto' => 'nullable|image|max:2048'
+            'nama_kamar'  => 'required',
+            'kapasitas'   => 'required|numeric',
+            'harga'       => 'required|numeric',
+            'media'       => 'image|max:2048',
         ]);
 
-        $kamar = KamarHomestay::create([
-            'homestay_id' => $request->homestay_id,
-            'nama_kamar' => $request->nama_kamar,
-            'kapasitas' => $request->kapasitas,
-            'harga' => $request->harga,
-            'fasilitas_json' => $request->fasilitas_json,
-        ]);
-
-        // ===== Foto Upload =====
-        if ($request->hasFile('foto')) {
-            $path = $request->file('foto')->store('kamar', 'public');
-
-            Media::create([
-                'ref_table' => 'kamar_homestay',
-                'ref_id' => $kamar->kamar_id,
-                'file_url' => $path,
-                'caption' => $request->nama_kamar,
-                'mime_type' => $request->file('foto')->getClientMimeType(),
-                'sort_order' => 1,
-            ]);
+        $file = null;
+        if ($request->hasFile('media')) {
+            $file = $request->file('media')->store('kamar', 'public');
         }
 
-        return redirect()->route('kamar.index')->with('success', 'Kamar berhasil ditambahkan!');
+        KamarHomestay::create([
+            'homestay_id'    => $request->homestay_id,
+            'nama_kamar'     => $request->nama_kamar,
+            'kapasitas'      => $request->kapasitas,
+            'harga'          => $request->harga,
+            'fasilitas_json' => json_encode($request->fasilitas ?? []),
+            'media'          => $file
+        ]);
+
+        return redirect()->route('kamar.index')->with('success', 'Kamar berhasil ditambahkan');
     }
 
     public function edit($id)
     {
-        $kamar = KamarHomestay::with('media')->findOrFail($id);
-        $homestay = Homestay::all();
-        return view('kamar.edit', compact('kamar', 'homestay'));
+        $kamar     = KamarHomestay::findOrFail($id);
+        $homestays = Homestay::all();
+        return view('kamar.edit', compact('kamar', 'homestays'));
     }
 
     public function update(Request $request, $id)
@@ -71,56 +60,55 @@ class KamarHomestayController extends Controller
 
         $request->validate([
             'homestay_id' => 'required',
-            'nama_kamar' => 'required',
-            'kapasitas' => 'required|numeric',
-            'harga' => 'required|numeric',
-            'fasilitas_json' => 'nullable|string',
-            'foto' => 'nullable|image|max:2048'
+            'nama_kamar'  => 'required',
+            'kapasitas'   => 'required|numeric',
+            'harga'       => 'required|numeric',
+            'media'       => 'image|max:2048',
         ]);
 
-        $kamar->update([
-            'homestay_id' => $request->homestay_id,
-            'nama_kamar' => $request->nama_kamar,
-            'kapasitas' => $request->kapasitas,
-            'harga' => $request->harga,
-            'fasilitas_json' => $request->fasilitas_json,
-        ]);
+        $file = $kamar->media;
 
-        // Update foto
-        if ($request->hasFile('foto')) {
-
-            // Hapus foto lama
-            if ($kamar->media->first()) {
-                Storage::disk('public')->delete($kamar->media->first()->file_url);
-                $kamar->media->first()->delete();
+        if ($request->hasFile('media')) {
+            if ($file) {
+                Storage::disk('public')->delete($file);
             }
 
-            $path = $request->file('foto')->store('kamar', 'public');
-
-            Media::create([
-                'ref_table' => 'kamar_homestay',
-                'ref_id' => $kamar->kamar_id,
-                'file_url' => $path,
-                'caption' => $request->nama_kamar,
-                'mime_type' => $request->file('foto')->getClientMimeType(),
-                'sort_order' => 1,
-            ]);
+            $file = $request->file('media')->store('kamar', 'public');
         }
 
-        return redirect()->route('kamar.index')->with('success', 'Kamar berhasil diperbarui!');
+        $kamar->update([
+            'homestay_id'    => $request->homestay_id,
+            'nama_kamar'     => $request->nama_kamar,
+            'kapasitas'      => $request->kapasitas,
+            'harga'          => $request->harga,
+            'fasilitas_json' => json_encode($request->fasilitas ?? []),
+            'media'          => $file
+        ]);
+
+        return redirect()->route('kamar.index')->with('success', 'Kamar berhasil diperbarui');
     }
 
     public function destroy($id)
     {
         $kamar = KamarHomestay::findOrFail($id);
 
-        if ($kamar->media->first()) {
-            Storage::disk('public')->delete($kamar->media->first()->file_url);
-            $kamar->media->first()->delete();
+        if ($kamar->media) {
+            Storage::disk('public')->delete($kamar->media);
         }
 
         $kamar->delete();
 
-        return redirect()->route('kamar.index')->with('success', 'Kamar berhasil dihapus!');
+        return redirect()->route('kamar.index')->with('success', 'Kamar berhasil dihapus');
     }
+
+    public function show($id)
+    {
+        $kamar = KamarHomestay::with(['homestay', 'media'])->findOrFail($id);
+
+        // Decode fasilitas JSON
+        $kamar->fasilitas = json_decode($kamar->fasilitas_json, true) ?? [];
+
+        return view('kamar.show', compact('kamar'));
+    }
+
 }

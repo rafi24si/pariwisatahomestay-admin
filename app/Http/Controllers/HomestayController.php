@@ -12,7 +12,9 @@ class HomestayController extends Controller
 {
     public function index()
     {
-        $homestays = Homestay::with('media')->get();
+        // Ambil 10 data per halaman (bisa kamu ganti)
+        $homestays = Homestay::with('media')->paginate(10);
+
         return view('homestay.index', compact('homestays'));
     }
 

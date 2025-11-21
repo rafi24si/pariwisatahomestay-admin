@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\DestinasiWisata;
@@ -15,13 +14,15 @@ class DestinasiWisataController extends Controller
 
         if ($request->has('q')) {
             $q = $request->q;
-            $query->where('nama', 'like', "%$q%")
-                  ->orWhere('alamat', 'like', "%$q%")
-                  ->orWhere('kontak', 'like', "%$q%");
+            $query->where(function ($x) use ($q) {
+                $x->where('nama', 'like', "%$q%")
+                    ->orWhere('alamat', 'like', "%$q%")
+                    ->orWhere('kontak', 'like', "%$q%");
+            });
         }
 
-        $data = $query->latest()->get();
-
+        // Pagination 10 data per halaman
+        $data = DestinasiWisata::paginate(10);
         return view('destinasi.index', compact('data'));
     }
 
@@ -33,20 +34,20 @@ class DestinasiWisataController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required',
+            'nama'   => 'required',
             'kontak' => 'required',
             'alamat' => 'required',
         ]);
 
         $destinasi = DestinasiWisata::create([
-            'nama' => $request->nama,
-            'kontak' => $request->kontak,
-            'alamat' => $request->alamat,
-            'rt' => $request->rt,
-            'rw' => $request->rw,
-            'jam_buka' => $request->jam_buka,
+            'nama'      => $request->nama,
+            'kontak'    => $request->kontak,
+            'alamat'    => $request->alamat,
+            'rt'        => $request->rt,
+            'rw'        => $request->rw,
+            'jam_buka'  => $request->jam_buka,
             'deskripsi' => $request->deskripsi,
-            'tiket' => $request->tiket,
+            'tiket'     => $request->tiket,
         ]);
 
         // [MEDIA] — simpan foto jika ada
@@ -54,11 +55,11 @@ class DestinasiWisataController extends Controller
             $path = $request->file('media')->store('uploads/destinasi', 'public');
 
             Media::create([
-                'ref_table' => 'destinasi_wisata',
-                'ref_id' => $destinasi->destinasi_id,
-                'file_url' => $path,
-                'caption' => $request->caption,
-                'mime_type' => $request->file('media')->getClientMimeType(),
+                'ref_table'  => 'destinasi_wisata',
+                'ref_id'     => $destinasi->destinasi_id,
+                'file_url'   => $path,
+                'caption'    => $request->caption,
+                'mime_type'  => $request->file('media')->getClientMimeType(),
                 'sort_order' => 1,
             ]);
         }
@@ -77,25 +78,25 @@ class DestinasiWisataController extends Controller
         $data = DestinasiWisata::findOrFail($id);
 
         $request->validate([
-            'nama' => 'required|string|max:100',
+            'nama'      => 'required|string|max:100',
             'deskripsi' => 'nullable|string',
-            'alamat' => 'nullable|string',
-            'rt' => 'nullable|string|max:10',
-            'rw' => 'nullable|string|max:10',
-            'jam_buka' => 'nullable|string|max:50',
-            'tiket' => 'nullable|numeric',
-            'kontak' => 'nullable|string|max:50',
+            'alamat'    => 'nullable|string',
+            'rt'        => 'nullable|string|max:10',
+            'rw'        => 'nullable|string|max:10',
+            'jam_buka'  => 'nullable|string|max:50',
+            'tiket'     => 'nullable|numeric',
+            'kontak'    => 'nullable|string|max:50',
         ]);
 
         $data->update([
-            'nama' => $request->nama,
-            'kontak' => $request->kontak,
-            'alamat' => $request->alamat,
-            'rt' => $request->rt,
-            'rw' => $request->rw,
-            'jam_buka' => $request->jam_buka,
+            'nama'      => $request->nama,
+            'kontak'    => $request->kontak,
+            'alamat'    => $request->alamat,
+            'rt'        => $request->rt,
+            'rw'        => $request->rw,
+            'jam_buka'  => $request->jam_buka,
             'deskripsi' => $request->deskripsi,
-            'tiket' => $request->tiket,
+            'tiket'     => $request->tiket,
         ]);
 
         // [MEDIA] — update foto
@@ -103,8 +104,8 @@ class DestinasiWisataController extends Controller
 
             // hapus media lama
             $oldMedia = Media::where('ref_table', 'destinasi_wisata')
-                              ->where('ref_id', $id)
-                              ->first();
+                ->where('ref_id', $id)
+                ->first();
 
             if ($oldMedia) {
                 Storage::disk('public')->delete($oldMedia->file_url);
@@ -115,11 +116,11 @@ class DestinasiWisataController extends Controller
             $path = $request->file('media')->store('uploads/destinasi', 'public');
 
             Media::create([
-                'ref_table' => 'destinasi_wisata',
-                'ref_id' => $id,
-                'file_url' => $path,
-                'caption' => $request->caption,
-                'mime_type' => $request->file('media')->getClientMimeType(),
+                'ref_table'  => 'destinasi_wisata',
+                'ref_id'     => $id,
+                'file_url'   => $path,
+                'caption'    => $request->caption,
+                'mime_type'  => $request->file('media')->getClientMimeType(),
                 'sort_order' => 1,
             ]);
         }
@@ -133,8 +134,8 @@ class DestinasiWisataController extends Controller
 
         // [MEDIA] — hapus file & record media
         $media = Media::where('ref_table', 'destinasi_wisata')
-                      ->where('ref_id', $id)
-                      ->get();
+            ->where('ref_id', $id)
+            ->get();
 
         foreach ($media as $m) {
             Storage::disk('public')->delete($m->file_url);

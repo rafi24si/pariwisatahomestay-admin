@@ -711,6 +711,37 @@
                             </article>
                         </div>
 
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <article class="feature-card">
+                                <div class="feature-card-header">
+                                    <div class="feature-logo">
+                                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
+                                            aria-hidden>
+                                            <path d="M3 11.5L12 4l9 7.5" stroke="#0EA5E9" stroke-width="1.5"
+                                                stroke-linejoin="round" />
+                                            <rect x="6" y="11.5" width="12" height="8" rx="1"
+                                                stroke="#0EA5E9" stroke-width="1.2" />
+                                        </svg>
+                                    </div>
+                                    <div class="feature-action">
+                                        <i class="bi bi-house-fill"></i>
+                                    </div>
+                                </div>
+
+                                <div class="feature-card-body">
+                                    <h4 class="fw-bold mb-1">Data Kamar Homestay</h4>
+                                    <p class="text-muted small mb-3">Kelola pemilik dan kamar homestay</p>
+                                    <a href="{{ route('kamar.index') }}" class="btn btn-info btn-sm w-100">Lihat
+                                        Data Homestay</a>
+                                </div>
+
+                                <div class="feature-card-footer">
+                                    <span class="meta">Total: <strong>18</strong></span>
+                                </div>
+                            </article>
+                        </div>
+
+
                     </div>
 
 
