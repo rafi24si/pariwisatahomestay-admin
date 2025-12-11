@@ -24,7 +24,9 @@
         width: 100%;
         overflow: hidden;
         position: relative;
+        background: #ddd;
     }
+
     .slide-img {
         height: 100%;
         width: 100%;
@@ -45,11 +47,41 @@
         border-radius: 8px;
         cursor: pointer;
         transition: .2s;
+        z-index: 5;
     }
     .nav-btn:hover { background: rgba(0,0,0,0.6); }
-
     .left-nav { left: 10px; }
     .right-nav { right: 10px; }
+
+    /* PLACEHOLDER TANPA FOTO */
+    .no-photo-box {
+        width: 100%;
+        height: 200px;
+        background: #e5e7eb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .no-photo-icon {
+        width: 55px;
+        height: 55px;
+        border-radius: 999px;
+        border: 2px dashed #9ca3af;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 22px;
+        color: #9ca3af;
+        margin-bottom: 4px;
+    }
+
+    .no-photo-text {
+        font-size: 11px;
+        color: #9ca3af;
+    }
 
     .facility-badge {
         background: #eef3ff;
@@ -73,7 +105,7 @@
         <a href="{{ route('homestay.create') }}" class="btn btn-primary px-4">+ Tambah Homestay</a>
     </div>
 
-    {{-- SEARCH & FILTER --}}
+    {{-- FILTER --}}
     <div class="card p-3 shadow-sm mb-4">
         <form method="GET" class="row g-2 align-items-center">
 
@@ -112,7 +144,7 @@
     </div>
 
 
-    {{-- GRID LIST HOMESTAY --}}
+    {{-- LIST HOMESTAY --}}
     <div class="row g-4">
 
         @forelse($homestay as $hs)
@@ -122,17 +154,19 @@
                 {{-- SLIDER FOTO --}}
                 <div class="slide-box" data-id="{{ $hs->homestay_id }}">
 
-                    {{-- Tombol Navigasi --}}
                     <span class="nav-btn left-nav" onclick="prevSlide({{ $hs->homestay_id }})">‹</span>
                     <span class="nav-btn right-nav" onclick="nextSlide({{ $hs->homestay_id }})">›</span>
 
                     @if($hs->media->count() > 0)
                         @foreach($hs->media as $img)
-                            <img src="{{ asset('storage/'.$img->file_url) }}"
-                                 class="slide-img d-none">
+                            <img src="{{ asset('storage/'.$img->file_url) }}" class="slide-img d-none">
                         @endforeach
                     @else
-                        <img src="/no-image.png" class="slide-img active">
+                        {{-- PLACEHOLDER --}}
+                        <div class="no-photo-box">
+                            <div class="no-photo-icon">!</div>
+                            <span class="no-photo-text">Belum ada foto</span>
+                        </div>
                     @endif
                 </div>
 
@@ -154,14 +188,10 @@
 
                     {{-- Fasilitas --}}
                     <div class="mb-2">
-                        @php
-                            $fac = json_decode($hs->fasilitas_json, true) ?? [];
-                        @endphp
-
+                        @php $fac = json_decode($hs->fasilitas_json, true) ?? []; @endphp
                         @foreach(array_slice($fac, 0, 4) as $f)
                             <span class="facility-badge">{{ $f }}</span>
                         @endforeach
-
                         @if(count($fac) > 4)
                             <span class="facility-badge">+{{ count($fac)-4 }} lainnya</span>
                         @endif
@@ -193,19 +223,16 @@
                             <button class="btn btn-danger btn-sm px-3">Hapus</button>
                         </form>
                     </div>
-
                 </div>
+
             </div>
         </div>
 
         @empty
-
             <div class="col-12 text-center py-5">
                 <h5 class="text-muted">Belum ada homestay.</h5>
             </div>
-
         @endforelse
-
     </div>
 
     {{-- PAGINATION --}}
@@ -224,18 +251,20 @@ let sliders = {};
 document.addEventListener("DOMContentLoaded", function () {
 
     document.querySelectorAll(".slide-box").forEach(box => {
-        let id  = box.dataset.id;
-        let imgs = box.querySelectorAll(".slide-img");
 
+        let imgs = box.querySelectorAll(".slide-img");
+        let id = box.dataset.id;
+
+        // Jika tidak ada gambar → skip slider
         if (imgs.length === 0) return;
 
         let index = 0;
+
         imgs[index].classList.remove("d-none");
         imgs[index].classList.add("active");
 
         sliders[id] = { index, imgs };
 
-        // Auto slide
         setInterval(() => nextSlide(id), 6000);
     });
 });
@@ -248,10 +277,10 @@ function nextSlide(id) {
 
     s.index = (s.index + 1) % s.imgs.length;
 
-    s.imgs.forEach(x => x.classList.add("d-none"));
+    s.imgs.forEach(img => img.classList.add("d-none"));
     s.imgs[s.index].classList.remove("d-none");
 
-    setTimeout(() => s.imgs[s.index].classList.add("active"), 50);
+    setTimeout(() => s.imgs[s.index].classList.add("active"), 20);
 }
 
 function prevSlide(id) {
@@ -262,10 +291,10 @@ function prevSlide(id) {
 
     s.index = (s.index - 1 + s.imgs.length) % s.imgs.length;
 
-    s.imgs.forEach(x => x.classList.add("d-none"));
+    s.imgs.forEach(img => img.classList.add("d-none"));
     s.imgs[s.index].classList.remove("d-none");
 
-    setTimeout(() => s.imgs[s.index].classList.add("active"), 50);
+    setTimeout(() => s.imgs[s.index].classList.add("active"), 20);
 }
 </script>
 @endpush

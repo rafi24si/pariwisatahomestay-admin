@@ -7,124 +7,181 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
-        /* Fade in animation */
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* ============================
+           BACKGROUND SLIDESHOW
+        ============================ */
+        .bg-slideshow {
+            position: fixed;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            animation: fadeBg 18s infinite;
+            z-index: -1;
+            filter: brightness(65%);
+        }
+
+        @keyframes fadeBg {
+            0% {
+                opacity: 1;
+            }
+
+            33% {
+                opacity: 0;
+            }
+
+            66% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Fade-in for card */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to   { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .fade-card {
-            animation: fadeIn .7s ease-out;
+            animation: fadeIn .8s ease-out;
         }
 
-        .logo-anim {
-            animation: fadeIn 1s ease-out;
-        }
-
-        /* Background gradient animation */
-        @keyframes bgMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        body {
-            background: linear-gradient(-45deg, #FDECEC, #FFF5F5, #FAD0D0, #FDECEC);
-            background-size: 400% 400%;
-            animation: bgMove 12s ease infinite;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Floating particles */
+        /* Particles */
         .particle {
             position: absolute;
             border-radius: 50%;
-            background: rgba(255,255,255,0.4);
+            background: rgba(255, 255, 255, 0.4);
+            filter: blur(4px);
             animation: floatUp 8s infinite ease-in-out;
-            filter: blur(3px);
         }
 
         @keyframes floatUp {
-            0% { transform: translateY(0); opacity: .6; }
-            50% { opacity: 1; }
-            100% { transform: translateY(-80px); opacity: 0; }
+            0% {
+                transform: translateY(0);
+                opacity: .6;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-80px);
+                opacity: 0;
+            }
         }
     </style>
 </head>
 
-<body class="min-h-screen flex items-center justify-center">
+<body class="flex items-center justify-center min-h-screen relative">
 
-    {{-- BACKGROUND PARTICLES --}}
-    <span class="particle" style="width:50px; height:50px; left:10%; top:80%; animation-duration:10s;"></span>
-    <span class="particle" style="width:35px; height:35px; left:70%; top:85%; animation-duration:12s;"></span>
-    <span class="particle" style="width:45px; height:45px; left:50%; top:78%; animation-duration:9s;"></span>
-    <span class="particle" style="width:25px; height:25px; left:30%; top:90%; animation-duration:11s;"></span>
+    <!-- =============================
+         BACKGROUND SLIDESHOW LAYER
+    ============================== -->
+    <div id="bgImage" class="bg-slideshow"></div>
 
-    <div class="fade-card bg-white/90 backdrop-blur-xl p-8 rounded-2xl shadow-xl w-full max-w-md border border-red-100">
+    <script>
+        const bgImages = [
+            "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+            "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+            "https://images.unsplash.com/photo-1526772662000-3f88f10405ff",
+            "https://images.unsplash.com/photo-1501785888041-af3ef285b470",
+            "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
+            "https://images.unsplash.com/photo-1541417904950-b855846fe074",
+        ];
 
-        {{-- LOGO BINA DESA --}}
+        let index = 0;
+        const bgElement = document.getElementById("bgImage");
+
+        function changeBackground() {
+            bgElement.style.backgroundImage = `url('${bgImages[index]}')`;
+            index = (index + 1) % bgImages.length;
+        }
+
+        changeBackground();
+        setInterval(changeBackground, 6000);
+    </script>
+
+    <!-- Floating Particles -->
+    <span class="particle" style="width:40px; height:40px; left:10%; bottom:10%; animation-duration:10s;"></span>
+    <span class="particle" style="width:28px; height:28px; left:70%; bottom:12%; animation-duration:12s;"></span>
+    <span class="particle" style="width:34px; height:34px; left:48%; bottom:9%; animation-duration:9s;"></span>
+
+    <!-- LOGIN CARD CENTER -->
+    <div
+        class="fade-card bg-white/90 backdrop-blur-xl p-8 rounded-2xl shadow-2xl w-full max-w-md border border-red-100 relative">
+
+        <!-- LOGO -->
         <div class="flex justify-center mb-4">
-            <img src="{{ asset('assets/images/logo.png') }}"
-                 alt="Logo Bina Desa"
-                 class="w-48 logo-anim drop-shadow-xl">
+            <img src="{{ asset('assets/images/logo.png') }}" class="w-40 drop-shadow-xl">
         </div>
 
-        <h2 class="text-3xl font-extrabold text-center mb-2" style="color:#C62828;">
-            Selamat Datang 👋
-        </h2>
+        <!-- APP INTRO TEXT -->
+        <div class="text-center mb-6">
+            <h2 class="text-xl font-extrabold text-red-700 whitespace-nowrap overflow-hidden text-ellipsis">
+                Sistem Pariwisata & Homestay
+            </h2>
 
-        <p class="text-center text-gray-700 mb-6">
-            Silakan masuk untuk melanjutkan
-        </p>
+            <p class="text-gray-700 text-sm mt-2">
+                Aplikasi pengelolaan destinasi wisata, homestay, kamar, dan booking secara terpadu.
+                Silakan masuk untuk melanjutkan.
+            </p>
+        </div>
 
-        {{-- ERROR MESSAGE --}}
+        <!-- ERROR MESSAGE -->
         @if (session('error'))
-            <div class="mb-4 p-3 rounded bg-red-100 text-red-700 border border-red-300">
+            <div class="mb-4 p-3 rounded bg-red-100 text-red-700 border border-red-300 text-sm">
                 {{ session('error') }}
             </div>
         @endif
 
-        {{-- LOGIN FORM --}}
+        <!-- LOGIN FORM -->
         <form action="{{ route('login.process') }}" method="POST" class="space-y-4">
             @csrf
 
             <div>
-                <label class="block mb-1 font-semibold text-gray-700">Email</label>
+                <label class="font-semibold text-gray-700 text-sm">Email</label>
                 <input type="email" name="email" required
-                    class="w-full border border-red-200 px-3 py-2 rounded-lg
-                           focus:ring-2 focus:ring-red-400 focus:outline-none transition">
+                    class="w-full border border-red-300 px-3 py-2 rounded-lg focus:ring-2 focus:ring-red-400 bg-white/80">
             </div>
 
             <div>
-                <label class="block mb-1 font-semibold text-gray-700">Password</label>
+                <label class="font-semibold text-gray-700 text-sm">Password</label>
                 <input type="password" name="password" required
-                    class="w-full border border-red-200 px-3 py-2 rounded-lg
-                           focus:ring-2 focus:ring-red-400 focus:outline-none transition">
+                    class="w-full border border-red-300 px-3 py-2 rounded-lg focus:ring-2 focus:ring-red-400 bg-white/80">
             </div>
 
-            <button
-                class="w-full py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition"
-                style="background:#C62828; color:white; border-bottom:3px solid #8E0000;">
+            <button class="w-full py-2 rounded-lg font-semibold shadow-lg text-white text-lg"
+                style="background:#C62828;">
                 Masuk
             </button>
         </form>
 
-        {{-- GOOGLE LOGIN --}}
-        <div class="my-5 flex items-center">
-            <div class="flex-grow h-px bg-red-200"></div>
-            <span class="px-3 text-gray-500 text-sm">atau</span>
-            <div class="flex-grow h-px bg-red-200"></div>
-        </div>
-
-        {{-- REGISTER --}}
-        <p class="text-center mt-5 text-gray-700">
+        <!-- REGISTER LINK -->
+        <p class="text-center mt-6 text-gray-700 text-sm">
             Belum punya akun?
-            <a href="{{ route('register.form') }}" class="font-semibold hover:underline" style="color:#C62828;">
-                Daftar
+            <a href="{{ route('register.form') }}" class="font-semibold text-red-600 hover:underline">
+                Daftar Akun
             </a>
         </p>
     </div>
 
 </body>
+
 </html>

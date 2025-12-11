@@ -102,6 +102,16 @@
                     </a>
                 </li>
 
+                <li class="sidebar-item mb-1">
+                    <a class="sidebar-link d-flex align-items-center py-2 px-3 rounded hover-menu"
+                        href="{{ route('ulasan.index') }}">
+                        <iconify-icon icon="solar:star-bold-duotone" width="20" class="me-3"></iconify-icon>
+                        <span>Ulasan Wisata</span>
+                    </a>
+                </li>
+
+
+
             </ul>
         </nav>
 

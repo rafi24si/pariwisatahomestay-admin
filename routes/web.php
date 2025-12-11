@@ -3,13 +3,14 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WargaController;
-use App\Http\Controllers\DestinasiWisataController;
 use App\Http\Controllers\HomestayController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UlasanWisataController;
 use App\Http\Controllers\KamarHomestayController;
 use App\Http\Controllers\BookingHomestayController;
+use App\Http\Controllers\DestinasiWisataController;
 
 // Redirect "/" ke login
 Route::redirect('/', '/login');
@@ -112,6 +113,16 @@ Route::middleware('checkLogin')->group(function () {
     Route::patch('/booking/{id}/toggle-lunas',
     [BookingHomestayController::class, 'toggleLunas']
 )->name('booking.toggleLunas');
+
+// -------------------------
+// CRUD ULASAN WISATA
+// -------------------------
+
+Route::resource('ulasan', UlasanWisataController::class);
+
+// (Opsional) AJAX check — jika nanti ingin validasi rating / komentar
+Route::get('/ulasan/check', [UlasanWisataController::class, 'check'])
+    ->name('ulasan.check');
 
 
 

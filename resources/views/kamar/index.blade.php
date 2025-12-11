@@ -2,228 +2,256 @@
 @section('title', 'Kamar Homestay')
 
 @push('styles')
-    <style>
-        .fade-in {
-            animation: fade .4s ease-in-out;
-        }
+<style>
+    .fade-in { animation: fade .4s ease-in-out; }
+    @keyframes fade { from{opacity:0;transform:translateY(10px);} to{opacity:1;transform:none;} }
 
-        @keyframes fade {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
+    .kamar-card {
+        width: 260px;
+        border-radius: 16px;
+        overflow: hidden;
+        background: #fff;
+        box-shadow: 0 6px 18px rgba(0,0,0,.1);
+        transition: .3s;
+        display: inline-block;
+        margin-right: 15px;
+        vertical-align: top;
+    }
+    .kamar-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 14px 28px rgba(0,0,0,.15);
+    }
 
-            to {
-                opacity: 1;
-                transform: none;
-            }
-        }
+    .slide-box {
+        height: 160px;
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        background: #ddd;
+    }
 
-        .kamar-card {
-            width: 260px;
-            border-radius: 16px;
-            overflow: hidden;
-            background: #fff;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, .1);
-            transition: .3s;
-            display: inline-block;
-            margin-right: 15px;
-            vertical-align: top;
-        }
+    .slide-img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        position: absolute;
+        top:0; left:100%;
+        transition: left .5s ease-in-out;
+    }
+    .slide-img.active { left: 0; }
 
-        .kamar-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 14px 28px rgba(0, 0, 0, .15);
-        }
+    /* SCROLL */
+    .scroll-row {
+        white-space: nowrap;
+        overflow-x: auto;
+        padding-bottom: 10px;
+    }
+    .scroll-row::-webkit-scrollbar {
+        height: 7px;
+    }
+    .scroll-row::-webkit-scrollbar-thumb {
+        background: #c2c2c2;
+        border-radius: 5px;
+    }
 
-        .slide-box {
-            height: 160px;
-            width: 100%;
-            overflow: hidden;
-            position: relative;
-            background: #ddd;
-        }
+    /* PLACEHOLDER */
+    .no-photo-box {
+        width: 100%;
+        height: 160px;
+        background: #e5e7eb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+    .no-photo-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 999px;
+        border: 2px dashed #9ca3af;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 20px;
+        color: #9ca3af;
+        margin-bottom: 4px;
+    }
+    .no-photo-text {
+        font-size: 11px;
+        color: #9ca3af;
+    }
 
-        .slide-img {
-            height: 100%;
-            width: 100%;
-            object-fit: cover;
-            position: absolute;
-            top: 0;
-            left: 100%;
-            transition: left .5s ease-in-out;
-        }
-
-        .slide-img.active {
-            left: 0;
-        }
-
-        .scroll-row {
-            white-space: nowrap;
-            overflow-x: auto;
-            padding-bottom: 10px;
-        }
-
-        .scroll-row::-webkit-scrollbar {
-            height: 7px;
-        }
-
-        .scroll-row::-webkit-scrollbar-thumb {
-            background: #c2c2c2;
-            border-radius: 5px;
-        }
-
-        .facility-badge {
-            background: #e8f0ff;
-            padding: 3px 8px;
-            border-radius: 6px;
-            font-size: 10px;
-            color: #4361ee;
-            margin-right: 4px;
-            display: inline-block;
-        }
-    </style>
+    .facility-badge {
+        background: #e8f0ff;
+        padding: 3px 8px;
+        border-radius: 6px;
+        font-size: 10px;
+        color: #4361ee;
+        margin-right: 4px;
+        display: inline-block;
+    }
+</style>
 @endpush
 
 
 @section('content')
-    <div class="container-fluid fade-in" style="padding-top:35px;">
+<div class="container-fluid fade-in" style="padding-top:35px;">
 
-        {{-- HEADER --}}
-        <div class="d-flex justify-content-between mb-4">
-            <h3 class="fw-bold text-blue">🛏️ Kamar Homestay</h3>
-            <a href="{{ route('kamar.create') }}" class="btn btn-primary px-4">+ Tambah Kamar</a>
-        </div>
+    {{-- HEADER --}}
+    <div class="d-flex justify-content-between mb-4">
+        <h3 class="fw-bold text-blue">🛏️ Kamar Homestay</h3>
+        <a href="{{ route('kamar.create') }}" class="btn btn-primary px-4">+ Tambah Kamar</a>
+    </div>
 
-        {{-- GROUP PER HOMESTAY --}}
-        @forelse($homestay as $h)
+    {{-- GROUP BY HOMESTAY --}}
+    @forelse($homestay as $h)
 
-            <div class="mb-4">
+        <div class="mb-4">
 
-                {{-- TITLE --}}
-                <h4 class="fw-bold text-dark mb-2">🏠 {{ $h->nama }}</h4>
-                <p class="text-muted mb-2">{{ $h->alamat }} (RT {{ $h->rt }}, RW {{ $h->rw }})</p>
+            {{-- TITLE --}}
+            <h4 class="fw-bold text-dark mb-1">🏠 {{ $h->nama }}</h4>
+            <p class="text-muted mb-2">{{ $h->alamat }} (RT {{ $h->rt }}, RW {{ $h->rw }})</p>
 
-                @php
-                    // AMBIL KAMAR UNTUK HOMESTAY INI
-                    $kamarList = $kamarGroup->where('homestay_id', $h->homestay_id);
-                @endphp
+            @php
+                $kamarList = $kamarGroup->where('homestay_id', $h->homestay_id);
+            @endphp
 
-                @if ($kamarList->count() == 0)
-                    <p class="text-muted fst-italic">Tidak ada kamar untuk homestay ini.</p>
-                @else
-                    <div class="scroll-row">
+            @if ($kamarList->count() == 0)
+                <p class="text-muted fst-italic">Tidak ada kamar untuk homestay ini.</p>
+            @else
 
-                        @foreach ($kamarList as $km)
-                            <div class="kamar-card">
+                <div class="scroll-row">
 
-                                <div class="slide-box" data-id="{{ $km->kamar_id }}">
-                                    @if ($km->media->count() > 0)
-                                        @foreach ($km->media as $img)
-                                            <img src="{{ asset('storage/' . $img->file_url) }}" class="slide-img d-none">
-                                        @endforeach
-                                    @else
-                                        <img src="/no-image.png" class="slide-img active">
+                    @foreach ($kamarList as $km)
+
+                        <div class="kamar-card">
+
+                            {{-- FOTO/SLIDER --}}
+                            <div class="slide-box" data-id="{{ $km->kamar_id }}">
+
+                                @if ($km->media->count() > 0)
+
+                                    @foreach ($km->media as $img)
+                                        <img src="{{ asset('storage/'.$img->file_url) }}"
+                                             class="slide-img d-none">
+                                    @endforeach
+
+                                @else
+                                    {{-- PLACEHOLDER --}}
+                                    <div class="no-photo-box">
+                                        <div class="no-photo-icon">!</div>
+                                        <div class="no-photo-text">Belum ada foto</div>
+                                    </div>
+                                @endif
+
+                            </div>
+
+                            <div class="p-3">
+
+                                <h6 class="fw-bold text-dark mb-1">{{ $km->nama_kamar }}</h6>
+
+                                <p class="small mb-1">👥 Kapasitas: {{ $km->kapasitas }} orang</p>
+
+                                {{-- Fasilitas --}}
+                                @php $fas = $km->fasilitas; @endphp
+                                <div class="mb-2" style="height:32px; overflow:hidden;">
+                                    @foreach (array_slice($fas, 0, 3) as $f)
+                                        <span class="facility-badge">{{ $f }}</span>
+                                    @endforeach
+                                    @if (count($fas) > 3)
+                                        <span class="facility-badge">+{{ count($fas) - 3 }}</span>
                                     @endif
                                 </div>
 
-                                <div class="p-3">
+                                {{-- Harga --}}
+                                <h6 class="fw-bold text-primary mb-2">
+                                    Rp {{ number_format($km->harga,0,',','.') }}
+                                </h6>
 
-                                    <h6 class="fw-bold text-dark mb-1">{{ $km->nama_kamar }}</h6>
+                                {{-- ACTION --}}
+                                <div class="d-flex justify-content-between">
+                                    <a href="{{ route('kamar.edit', $km->kamar_id) }}"
+                                       class="btn btn-warning btn-sm">Edit</a>
 
-                                    <p class="small mb-1">👥 Kapasitas: {{ $km->kapasitas }} orang</p>
-
-                                    @php $fas = $km->fasilitas; @endphp
-                                    <div class="mb-2" style="height:32px; overflow:hidden;">
-                                        @foreach (array_slice($fas, 0, 3) as $f)
-                                            <span class="facility-badge">{{ $f }}</span>
-                                        @endforeach
-                                        @if (count($fas) > 3)
-                                            <span class="facility-badge">+{{ count($fas) - 3 }}</span>
-                                        @endif
-                                    </div>
-
-                                    <h6 class="fw-bold text-primary mb-2">
-                                        Rp {{ number_format($km->harga, 0, ',', '.') }}
-                                    </h6>
-
-                                    <div class="d-flex justify-content-between">
-                                        <a href="{{ route('kamar.edit', $km->kamar_id) }}"
-                                            class="btn btn-warning btn-sm">Edit</a>
-
-                                        <form action="{{ route('kamar.destroy', $km->kamar_id) }}" method="POST"
-                                            onsubmit="return confirm('Hapus kamar ini?')">
-                                            @csrf @method('DELETE')
-                                            <button class="btn btn-danger btn-sm">Hapus</button>
-                                        </form>
-                                    </div>
-
+                                    <form action="{{ route('kamar.destroy', $km->kamar_id) }}"
+                                          method="POST"
+                                          onsubmit="return confirm('Hapus kamar ini?')">
+                                        @csrf @method('DELETE')
+                                        <button class="btn btn-danger btn-sm">Hapus</button>
+                                    </form>
                                 </div>
 
                             </div>
-                        @endforeach
 
-                    </div>
-                @endif
+                        </div>
 
-                <hr>
-            </div>
+                    @endforeach
 
-        @empty
+                </div>
 
-            <div class="text-center py-5">
-                <h5 class="text-muted">Belum ada Homestay.</h5>
-            </div>
+            @endif
 
-        @endforelse
+            <hr>
 
-        {{-- PAGINATION --}}
-        <div class="mt-4">
-            {{ $paginate->links('pagination::bootstrap-4') }}
         </div>
 
+    @empty
+
+        <div class="text-center py-5">
+            <h5 class="text-muted">Belum ada Homestay.</h5>
+        </div>
+
+    @endforelse
+
+
+    {{-- PAGINATION --}}
+    <div class="mt-4">
+        {{ $paginate->links('pagination::bootstrap-4') }}
     </div>
+
+</div>
 @endsection
 
 
+
 @push('scripts')
-    <script>
-        let sliders = {};
+<script>
+let sliders = {};
 
-        document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
 
-            document.querySelectorAll(".slide-box").forEach(box => {
-                let id = box.dataset.id;
-                let imgs = box.querySelectorAll(".slide-img");
+    document.querySelectorAll(".slide-box").forEach(box => {
 
-                if (imgs.length === 0) return;
+        let id   = box.dataset.id;
+        let imgs = box.querySelectorAll(".slide-img");
 
-                let index = 0;
+        if (imgs.length === 0) return;
 
-                imgs[index].classList.remove("d-none");
-                imgs[index].classList.add("active");
+        let index = 0;
 
-                sliders[id] = {
-                    index,
-                    imgs
-                };
+        imgs[index].classList.remove("d-none");
+        imgs[index].classList.add("active");
 
-                setInterval(() => nextSlide(id), 5000);
-            });
-        });
+        sliders[id] = { index, imgs };
 
-        function nextSlide(id) {
-            let s = sliders[id];
-            if (!s) return;
+        setInterval(() => nextSlide(id), 5000);
+    });
 
-            s.imgs[s.index].classList.remove("active");
+});
 
-            s.index = (s.index + 1) % s.imgs.length;
+function nextSlide(id) {
+    let s = sliders[id];
+    if (!s) return;
 
-            s.imgs.forEach(img => img.classList.add("d-none"));
-            s.imgs[s.index].classList.remove("d-none");
+    s.imgs[s.index].classList.remove("active");
 
-            setTimeout(() => s.imgs[s.index].classList.add("active"), 50);
-        }
-    </script>
+    s.index = (s.index + 1) % s.imgs.length;
+
+    s.imgs.forEach(img => img.classList.add("d-none"));
+    s.imgs[s.index].classList.remove("d-none");
+
+    setTimeout(() => s.imgs[s.index].classList.add("active"), 20);
+}
+</script>
 @endpush
