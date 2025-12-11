@@ -16,7 +16,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role', // WAJIB
+        'role',
     ];
 
     protected $hidden = [
@@ -30,5 +30,32 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password'          => 'hashed',
         ];
+    }
+
+    /* =====================================================
+       RELASI FOTO PROFIL (TABLE: media)
+       ref_table = 'user_profile'
+       ref_id    = users.id
+    ====================================================== */
+    public function fotoProfil()
+    {
+        return $this->hasOne(Media::class, 'ref_id')
+                    ->where('ref_table', 'user_profile');
+    }
+
+    /* =====================================================
+       ACCESSOR: Ambil foto profil siap pakai
+       Jika user tidak punya foto → avatar default
+    ====================================================== */
+    public function getFotoUrlAttribute()
+    {
+        if ($this->fotoProfil) {
+            return asset('storage/' . $this->fotoProfil->file_url);
+        }
+
+        // Avatar default (inisial)
+        $initials = strtoupper(substr($this->name, 0, 1));
+
+        return "https://ui-avatars.com/api/?name={$initials}&background=C62828&color=fff&size=128";
     }
 }

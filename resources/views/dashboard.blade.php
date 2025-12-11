@@ -19,7 +19,7 @@
             animation: fadeIn .6s ease-out;
         }
 
-        /* Tema Bina Desa */
+        /* Tema Dashboard */
         .brand-red {
             color: #C62828 !important;
         }
@@ -32,7 +32,7 @@
             background: #FDECEC !important;
         }
 
-        /* Styling Card */
+        /* Card Style */
         .card-soft {
             border-radius: 16px;
             background: #fff;
@@ -56,11 +56,6 @@
             font-size: 26px;
             color: #fff;
         }
-
-        .empty {
-            color: #8d99ae;
-            font-style: italic;
-        }
     </style>
 @endpush
 
@@ -78,7 +73,7 @@
                 <p class="text-muted mb-0">Sistem Informasi Pariwisata & Homestay</p>
             </div>
 
-            {{-- JAM REALTIME --}}
+            {{-- JAM --}}
             <div class="ms-auto text-end">
                 <h4 class="fw-bold brand-red mb-0" id="clock" style="font-size:28px;"></h4>
                 <span class="text-muted" id="date-today"></span>
@@ -87,9 +82,12 @@
 
 
 
+        {{-- ============================= --}}
         {{-- STATISTIK --}}
+        {{-- ============================= --}}
         <div class="row g-3 mb-4">
 
+            {{-- TOTAL HOMESTAY --}}
             <div class="col-md-3">
                 <div class="card card-soft">
                     <div class="card-body d-flex align-items-center">
@@ -98,12 +96,13 @@
                         </div>
                         <div>
                             <h6 class="fw-bold brand-red mb-0">Total Homestay</h6>
-                            <span class="text-muted">12</span>
+                            <span class="text-muted">{{ $totalHomestay }}</span>
                         </div>
                     </div>
                 </div>
             </div>
 
+            {{-- TOTAL DESTINASI --}}
             <div class="col-md-3">
                 <div class="card card-soft">
                     <div class="card-body d-flex align-items-center">
@@ -111,36 +110,39 @@
                             <i class="fa fa-map-location-dot"></i>
                         </div>
                         <div>
-                            <h6 class="fw-bold text-primary mb-0">Destinasi</h6>
-                            <span class="text-muted">24</span>
+                            <h6 class="fw-bold text-primary mb-0">Destinasi Wisata</h6>
+                            <span class="text-muted">{{ $totalDestinasi }}</span>
                         </div>
                     </div>
                 </div>
             </div>
 
+            {{-- TOTAL BOOKING --}}
             <div class="col-md-3">
                 <div class="card card-soft">
                     <div class="card-body d-flex align-items-center">
                         <div class="stat-icon bg-warning me-3">
-                            <i class="fa fa-calendar"></i>
+                            <i class="fa fa-calendar-check"></i>
                         </div>
                         <div>
-                            <h6 class="fw-bold text-warning mb-0">Event</h6>
-                            <span class="text-muted">3</span>
+                            <h6 class="fw-bold text-warning mb-0">Total Booking</h6>
+                            <span class="text-muted">{{ $totalBooking }}</span>
                         </div>
                     </div>
                 </div>
             </div>
 
+
+            {{-- ✔ VARIASI BARU : TOTAL KAMAR --}}
             <div class="col-md-3">
                 <div class="card card-soft">
                     <div class="card-body d-flex align-items-center">
-                        <div class="stat-icon bg-success me-3">
-                            <i class="fa fa-star"></i>
+                        <div class="stat-icon bg-dark me-3">
+                            <i class="fa fa-bed"></i>
                         </div>
                         <div>
-                            <h6 class="fw-bold text-success mb-0">Ulasan</h6>
-                            <span class="text-muted">58</span>
+                            <h6 class="fw-bold text-dark mb-0">Total Kamar</h6>
+                            <span class="text-muted">{{ \App\Models\KamarHomestay::count() }}</span>
                         </div>
                     </div>
                 </div>
@@ -150,10 +152,12 @@
 
 
 
-        {{-- CHART ROW --}}
+        {{-- ============================= --}}
+        {{-- CHART --}}
+        {{-- ============================= --}}
         <div class="row g-4 mb-4">
 
-            {{-- CHART KUNJUNGAN --}}
+            {{-- CHART VISITS --}}
             <div class="col-lg-6">
                 <div class="card card-soft p-3">
                     <h6 class="fw-bold brand-red">Kunjungan Wisata (Mingguan)</h6>
@@ -165,7 +169,7 @@
             <div class="col-lg-6">
                 <div class="card card-soft p-3">
                     <h6 class="fw-bold text-primary">Tingkat Hunian Homestay (%)</h6>
-                    <canvas id="chartHomestay" height="140"></canvas>
+                    <canvas id="chartHunian" height="140"></canvas>
                 </div>
             </div>
 
@@ -173,93 +177,212 @@
 
 
 
-        {{-- LIST SECTION --}}
+        {{-- ============================= --}}
+        {{-- LIST: HOMESTAY TERBARU --}}
+        {{-- ============================= --}}
         <div class="row g-4">
 
+            {{-- HOMESTAY TERBARU --}}
             <div class="col-lg-6">
                 <div class="card card-soft">
                     <div class="card-header fw-bold brand-red">
                         Homestay Terbaru
                     </div>
+
                     <div class="card-body">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Homestay Merah Putih - 2 kamar</li>
-                            <li class="list-group-item">Homestay Anggrek - 4 kamar</li>
-                            <li class="list-group-item">Homestay Bambu Runcing - 3 kamar</li>
-                        </ul>
+
+                        @if ($homestayTerbaru->count() == 0)
+                            <p class="text-muted fst-italic small">Belum ada homestay.</p>
+                        @else
+                            <ul class="list-group list-group-flush">
+
+                                @foreach ($homestayTerbaru as $hs)
+                                    <li class="list-group-item py-2 px-3">
+
+                                        <div class="d-flex align-items-center justify-content-between w-100">
+
+                                            {{-- Nama --}}
+                                            <span class="small fw-semibold text-dark">
+                                                {{ $hs->nama }}
+                                            </span>
+
+                                            {{-- Jumlah kamar --}}
+                                            <span class="badge bg-primary small" style="font-size: 11px;">
+                                                {{ $hs->kamar_count }} kamar
+                                            </span>
+
+                                        </div>
+
+                                    </li>
+                                @endforeach
+
+                            </ul>
+                        @endif
+
                     </div>
                 </div>
             </div>
 
 
+
+            {{-- EVENT --}}
             <div class="col-lg-6">
                 <div class="card card-soft">
                     <div class="card-header fw-bold text-primary">
-                        Event Wisata Mendatang
+                        Ulasan Wisata Terbaru
                     </div>
+
                     <div class="card-body">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Festival Kuliner Desa - 12 Februari</li>
-                            <li class="list-group-item">Gerak Jalan Sehat - 20 Februari</li>
-                            <li class="list-group-item">Lomba Foto Wisata - 5 Maret</li>
-                        </ul>
+
+                        @if ($ulasanTerbaru->count() == 0)
+                            <p class="text-muted fst-italic small">Belum ada ulasan dari warga.</p>
+                        @else
+                            <ul class="list-group list-group-flush">
+
+                                @foreach ($ulasanTerbaru as $u)
+                                    <li class="list-group-item py-2">
+
+                                        {{-- NAMA & DESTINASI --}}
+                                        <strong class="small d-block">
+                                            {{ $u->warga->nama ?? 'Warga Tidak Diketahui' }}
+                                        </strong>
+
+                                        <span class="text-primary fw-bold small d-block">
+                                            {{ $u->destinasi->nama ?? '-' }}
+                                        </span>
+
+                                        {{-- RATING (kecil) --}}
+                                        <div class="text-warning" style="font-size: 11px;">
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                <i class="fa fa-star {{ $i <= $u->rating ? '' : 'text-secondary' }}"></i>
+                                            @endfor
+                                        </div>
+
+                                        {{-- KOMENTAR (lebih kecil) --}}
+                                        <div class="text-muted small" style="font-size: 12px;">
+                                            "{{ $u->komentar }}"
+                                        </div>
+
+                                        {{-- WAKTU --}}
+                                        <small class="text-secondary d-block" style="font-size: 11px;">
+                                            {{ \Carbon\Carbon::parse($u->waktu)->diffForHumans() }}
+                                        </small>
+
+                                    </li>
+                                @endforeach
+
+                            </ul>
+                        @endif
+
                     </div>
                 </div>
             </div>
-
         </div>
 
-        {{-- ===================================================== --}}
-        {{-- IDENTITAS PENGEMBANG --}}
-        {{-- ===================================================== --}}
-        {{-- ===================================================== --}}
-        {{-- IDENTITAS PENGEMBANG --}}
-        {{-- ===================================================== --}}
-        <div class="row g-4 mt-4 fade-in">
+        <div class="col-lg-12">
+            <div class="card card-soft">
+                <div class="card-header fw-bold brand-red">
+                    Warga Terbaru
+                </div>
 
+                <div class="card-body">
+
+                    @if ($wargaTerbaru->count() == 0)
+                        <p class="text-muted fst-italic small">Belum ada data warga.</p>
+                    @else
+                        <ul class="list-group list-group-flush">
+
+                            @foreach ($wargaTerbaru as $w)
+                                <li class="list-group-item py-2 px-3">
+
+                                    <div class="d-flex align-items-center justify-content-between w-100">
+
+                                        {{-- Nama Warga --}}
+                                        <span class="small fw-semibold text-dark">
+                                            {{ $w->nama }}
+                                        </span>
+
+                                        {{-- RT / RW --}}
+                                        <span class="badge bg-secondary small" style="font-size: 11px;">
+                                            RT {{ $w->rt }} / RW {{ $w->rw }}
+                                        </span>
+
+                                    </div>
+
+                                </li>
+                            @endforeach
+
+                        </ul>
+                    @endif
+
+                </div>
+            </div>
+        </div>
+
+        {{-- ============================= --}}
+        {{-- IDENTITAS PENGEMBANG --}}
+        {{-- ============================= --}}
+        <div class="row g-4 mt-4 fade-in">
             <div class="col-lg-12">
                 <div class="card card-soft p-4 d-flex flex-row align-items-center">
 
-                    {{-- FOTO DEVELOPER --}}
-                    <img src="{{ asset('assets/images/Muhammad Rafi.jpg') }}" alt="Foto Developer - Muhammad Rafi"
-                        class="rounded-circle shadow"
+                    <img src="{{ asset('assets/images/Muhammad Rafi.jpg') }}" class="rounded-circle shadow"
                         style="width:120px; height:120px; object-fit:cover; border:4px solid #C62828;">
 
                     <div class="ms-4">
-
                         <h4 class="fw-bold mb-1 brand-red">Identitas Pengembang</h4>
 
                         <p class="mb-1"><strong>Nama :</strong> Muhammad Rafi</p>
                         <p class="mb-1"><strong>NIM :</strong> 2457301096</p>
                         <p class="mb-1"><strong>Prodi :</strong> Sistem Informasi</p>
 
-                        {{-- Sosial Media --}}
                         <div class="d-flex mt-2" style="gap:14px; font-size:26px;">
-
                             <a href="https://linkedin.com" target="_blank" class="text-primary">
                                 <i class="fa-brands fa-linkedin"></i>
                             </a>
-
                             <a href="https://github.com" target="_blank" class="text-dark">
                                 <i class="fa-brands fa-github"></i>
                             </a>
-
                             <a href="https://www.instagram.com/rraappii._/" target="_blank" class="text-danger">
                                 <i class="fa-brands fa-instagram"></i>
                             </a>
-
                         </div>
-
                     </div>
 
                 </div>
             </div>
-
         </div>
-        {{-- END IDENTITAS --}}
 
-        {{-- END IDENTITAS --}}
+        <div class="row g-4 mt-4 fade-in">
+            <div class="col-lg-12">
+                <div class="card card-soft p-4 d-flex flex-row align-items-center">
 
+                    <img src="{{ asset('assets/images/Muhammad Rafi.jpg') }}" class="rounded-circle shadow"
+                        style="width:120px; height:120px; object-fit:cover; border:4px solid #C62828;">
+
+                    <div class="ms-4">
+                        <h4 class="fw-bold mb-1 brand-red">Identitas Pengembang</h4>
+
+                        <p class="mb-1"><strong>Nama :</strong> Ricardo Zulkifli Raja Guk-Guk</p>
+                        <p class="mb-1"><strong>NIM :</strong> 2457301096</p>
+                        <p class="mb-1"><strong>Prodi :</strong> Sistem Informasi</p>
+
+                        <div class="d-flex mt-2" style="gap:14px; font-size:26px;">
+                            <a href="https://linkedin.com" target="_blank" class="text-primary">
+                                <i class="fa-brands fa-linkedin"></i>
+                            </a>
+                            <a href="https://github.com" target="_blank" class="text-dark">
+                                <i class="fa-brands fa-github"></i>
+                            </a>
+                            <a href="https://www.instagram.com/rraappii._/" target="_blank" class="text-danger">
+                                <i class="fa-brands fa-instagram"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
 
     </div>
 @endsection
@@ -270,7 +393,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
+        // ===========================
         // JAM REALTIME
+        // ===========================
         function updateClock() {
             const now = new Date();
             document.getElementById("clock").innerHTML =
@@ -286,25 +411,27 @@
                     day: 'numeric'
                 });
         }
-        setInterval(updateClock, 1000);
         updateClock();
+        setInterval(updateClock, 1000);
 
 
-        // CHART 1 - LINE
+
+        // ===========================
+        // CHART VISITS
+        // ===========================
         new Chart(document.getElementById("chartVisits"), {
             type: 'line',
             data: {
                 labels: ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"],
                 datasets: [{
-                    data: [50, 70, 65, 90, 120, 160, 140],
+                    data: @json($chartKunjungan),
                     borderColor: "#C62828",
-                    backgroundColor: "rgba(198,40,40,0.15)",
+                    backgroundColor: "rgba(198,40,40,0.2)",
                     tension: .4,
                     borderWidth: 3
                 }]
             },
             options: {
-                responsive: true,
                 plugins: {
                     legend: {
                         display: false
@@ -314,18 +441,19 @@
         });
 
 
-        // CHART 2 - BAR
-        new Chart(document.getElementById("chartHomestay"), {
+        // ===========================
+        // CHART HUNIAN
+        // ===========================
+        new Chart(document.getElementById("chartHunian"), {
             type: 'bar',
             data: {
-                labels: ["Homestay A", "Homestay B", "Homestay C", "Homestay D"],
+                labels: @json($chartHunian['labels']),
                 datasets: [{
-                    data: [80, 60, 75, 90],
-                    backgroundColor: ["#C62828", "#8E0000", "#C62828", "#8E0000"]
+                    data: @json($chartHunian['values']),
+                    backgroundColor: ['#C62828', '#8E0000', '#C62828', '#8E0000']
                 }]
             },
             options: {
-                responsive: true,
                 plugins: {
                     legend: {
                         display: false

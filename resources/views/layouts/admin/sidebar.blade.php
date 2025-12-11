@@ -12,25 +12,35 @@
 
         {{-- USER PROFILE --}}
         @if (session()->has('user_id'))
+            @php
+                $user = \App\Models\User::with('fotoProfil')->find(session('user_id'));
+                $foto = $user?->fotoProfil?->file_url
+                    ? asset('storage/' . $user->fotoProfil->file_url)
+                    : 'https://ui-avatars.com/api/?name=' .
+                        urlencode($user->name) .
+                        '&background=C62828&color=fff&size=90&rounded=true';
+            @endphp
+
             <div class="sidebar-profile text-center py-4 px-3">
 
-                {{-- Avatar --}}
-                <img src="https://ui-avatars.com/api/?name={{ urlencode(session('user_name')) }}&background=C62828&color=fff&size=90&rounded=true"
-                    class="rounded-circle shadow mb-2" width="80" height="80">
+                {{-- Avatar / Foto Profil --}}
+                <img src="{{ $foto }}" class="rounded-circle shadow mb-2" width="80" height="80"
+                    style="object-fit: cover;">
 
                 {{-- Nama User --}}
                 <h6 class="fw-bold mb-0">
-                    {{ session('user_name') }}
+                    {{ $user->name }}
                 </h6>
 
-                {{-- Role User --}}
+                {{-- Role --}}
                 <span class="badge" style="background:#C62828; color:white; padding:5px 12px; border-radius:8px;">
-                    {{ ucfirst(session('role')) }}
+                    {{ ucfirst($user->role) }}
                 </span>
 
                 <hr class="mt-3">
             </div>
         @endif
+
 
         {{-- NAVIGATION --}}
         <nav class="sidebar-nav scroll-sidebar px-2" data-simplebar="">
