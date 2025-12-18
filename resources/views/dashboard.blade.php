@@ -152,6 +152,8 @@
 
 
 
+
+
         {{-- ============================= --}}
         {{-- CHART --}}
         {{-- ============================= --}}
@@ -319,6 +321,65 @@
             </div>
         </div>
 
+
+        {{-- ============================= --}}
+        {{-- BANNER PERANGKAT DESA --}}
+        {{-- ============================= --}}
+        {{-- ============================= --}}
+        {{-- BANNER PERANGKAT DESA --}}
+        {{-- ============================= --}}
+        <div class="row mb-4 fade-in">
+            <div class="col-lg-12">
+                <div class="card card-soft overflow-hidden">
+
+                    <div class="row g-0">
+
+                        {{-- FOTO --}}
+                        <div class="col-lg-7">
+                            <img src="{{ asset('assets/images/foto1.png') }}" alt="Perangkat Desa" class="w-100 h-100"
+                                style="object-fit: cover; min-height: 300px;">
+                        </div>
+
+                        {{-- DESKRIPSI --}}
+                        <div class="col-lg-5 d-flex align-items-center">
+                            <div class="p-4">
+
+                                {{-- BADGE --}}
+                                <span class="badge brand-red-soft brand-red fw-semibold mb-3">
+                                    <i class="fa fa-users me-1"></i> Pariwisata & Homestay
+                                </span>
+
+                                {{-- JUDUL --}}
+                                <h3 class="fw-bold brand-red mb-2">
+                                    Pariwisata & Homestay
+                                </h3>
+
+                                {{-- DESKRIPSI --}}
+                                <p class="text-muted small mb-4">
+                                    Pariwisata dan homestay berperan aktif dalam pelayanan wisatawan, pengelolaan destinasi,
+                                    pengembangan ekonomi desa, serta mendukung promosi dan keberlanjutan pariwisata berbasis
+                                    masyarakat.
+                                </p>
+
+                                {{-- BUTTON --}}
+                                <div class="d-flex gap-2 flex-wrap">
+                                    <a href="#" class="btn brand-red-bg text-white px-4 rounded-pill shadow-sm">
+                                        <i class="fa fa-eye me-1"></i> Lihat Data
+                                    </a>
+
+                                    <a href="#" class="btn btn-outline-danger px-4 rounded-pill">
+                                        <i class="fa fa-plus me-1"></i> Tambah Baru
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
         {{-- ============================= --}}
         {{-- IDENTITAS PENGEMBANG --}}
         {{-- ============================= --}}
@@ -357,14 +418,14 @@
             <div class="col-lg-12">
                 <div class="card card-soft p-4 d-flex flex-row align-items-center">
 
-                    <img src="{{ asset('assets/images/Muhammad Rafi.jpg') }}" class="rounded-circle shadow"
+                    <img src="{{ asset('assets/images/ricardo.jpeg') }}" class="rounded-circle shadow"
                         style="width:120px; height:120px; object-fit:cover; border:4px solid #C62828;">
 
                     <div class="ms-4">
                         <h4 class="fw-bold mb-1 brand-red">Identitas Pengembang</h4>
 
                         <p class="mb-1"><strong>Nama :</strong> Ricardo Zulkifli Raja Guk-Guk</p>
-                        <p class="mb-1"><strong>NIM :</strong> 2457301096</p>
+                        <p class="mb-1"><strong>NIM :</strong> 2457301121</p>
                         <p class="mb-1"><strong>Prodi :</strong> Sistem Informasi</p>
 
                         <div class="d-flex mt-2" style="gap:14px; font-size:26px;">
