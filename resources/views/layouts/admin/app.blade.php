@@ -94,6 +94,15 @@
 
     {{-- JS tambahan dari halaman --}}
     @stack('scripts')
+
+    <!-- PAGE LOADING SPINNER -->
+    <div id="page-loader">
+        <div class="loader-wrapper">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Memuat halaman...</div>
+        </div>
+    </div>
+
 </body>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -120,5 +129,93 @@
         });
     </script>
 @endif
+
+
+<style>
+    /* ===============================
+   PAGE LOADING SPINNER
+================================ */
+    #page-loader {
+        position: fixed;
+        inset: 0;
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(6px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 99999;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .3s ease;
+    }
+
+    #page-loader.show {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    .loader-wrapper {
+        text-align: center;
+    }
+
+    .loader-spinner {
+        width: 56px;
+        height: 56px;
+        border: 5px solid #e0e0e0;
+        border-top: 5px solid #C62828;
+        /* MERAH PARSTAY */
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: auto;
+    }
+
+    .loader-text {
+        margin-top: 12px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #C62828;
+        letter-spacing: .5px;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+        const loader = document.getElementById('page-loader');
+
+        // Tampilkan loader saat klik link
+        document.querySelectorAll('a[href]').forEach(link => {
+            link.addEventListener('click', function() {
+                const href = this.getAttribute('href');
+
+                if (
+                    !href ||
+                    href.startsWith('#') ||
+                    href.startsWith('javascript') ||
+                    this.target === '_blank'
+                ) return;
+
+                loader.classList.add('show');
+            });
+        });
+
+        // Hilangkan loader saat halaman selesai load
+        window.addEventListener('pageshow', function() {
+            loader.classList.remove('show');
+        });
+
+    });
+</script>
+
 
 </html>

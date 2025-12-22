@@ -11,19 +11,24 @@
         </a>
 
         <div class="d-none d-xl-flex align-items-center gap-2">
-            <a href="#" class="btn btn-sm px-3 py-1 text-white"
+
+            <a href="{{ route('destinasi.index') }}" class="btn btn-sm px-3 py-1 text-white"
                 style="background:rgba(255,255,255,0.18); border-radius:8px;">
-                <i class="ti ti-lifebuoy fs-5"></i> Bantuan
+                <i class="ti ti-map-pin fs-5"></i> Destinasi
             </a>
-            <a href="#" class="btn btn-sm px-3 py-1 text-white"
+
+            <a href="{{ route('homestay.index') }}" class="btn btn-sm px-3 py-1 text-white"
                 style="background:rgba(255,255,255,0.18); border-radius:8px;">
-                <i class="ti ti-gift fs-5"></i> Template
+                <i class="ti ti-home fs-5"></i> Homestay
             </a>
-            <a href="#" class="btn btn-sm px-3 py-1 text-white"
+
+            <a href="{{ route('booking.index') }}" class="btn btn-sm px-3 py-1 text-white"
                 style="background:rgba(255,255,255,0.18); border-radius:8px;">
-                <i class="ti ti-briefcase fs-5"></i> Layanan
+                <i class="ti ti-calendar fs-5"></i> Booking
             </a>
+
         </div>
+
 
     </div>
 
@@ -37,13 +42,21 @@
                 {{-- BUTTON --}}
                 <button class="btn d-flex align-items-center gap-2 px-3 py-2 text-white"
                     style="background:rgba(255,255,255,0.15);
-                           border:1px solid rgba(255,255,255,0.25);
-                           backdrop-filter:blur(10px);
-                           border-radius:10px;"
+               border:1px solid rgba(255,255,255,0.25);
+               backdrop-filter:blur(10px);
+               border-radius:10px;"
                     data-bs-toggle="dropdown">
 
-                    <i class="ti ti-user-circle fs-4"></i>
+                    {{-- FOTO PROFIL --}}
+                    @if (isset($user) && $user->fotoProfil)
+                        <img src="{{ asset('storage/' . $user->fotoProfil->file_url) }}" class="rounded-circle"
+                            width="36" height="36" style="object-fit:cover;">
+                    @else
+                        <img src="{{ asset('images/default-user.png') }}" class="rounded-circle" width="36"
+                            height="36">
+                    @endif
 
+                    {{-- INFO USER --}}
                     <div class="text-start" style="line-height:1;">
                         <div class="fw-bold">{{ session('user_name') }}</div>
                         <small class="opacity-75">{{ ucfirst(session('role')) }}</small>
@@ -52,32 +65,64 @@
                     <i class="ti ti-chevron-down ms-1"></i>
                 </button>
 
+
                 {{-- DROPDOWN MENU FIX --}}
-                <ul class="dropdown-menu dropdown-menu-end shadow-lg" style="border-radius:12px;">
+                @if (isset($user))
+                    <ul class="dropdown-menu dropdown-menu-end shadow-lg p-2"
+                        style="border-radius:12px; min-width:260px;">
 
-                    <li>
-                        <a href="{{ route('user.profil') }}"
-                           class="dropdown-item d-flex align-items-center gap-2">
-                            <i class="ti ti-user-edit"></i> Profil Saya
-                        </a>
-                    </li>
-                    
-                    <li><hr class="dropdown-divider"></li>
+                        {{-- INFO USER --}}
+                        <li class="px-3 py-2">
+                            <div class="d-flex align-items-center gap-3">
 
-                    <li>
-                        <a href="{{ route('logout') }}"
-                           class="dropdown-item text-danger d-flex align-items-center gap-2"
-                           onclick="return confirm('Keluar dari aplikasi?')">
-                            <i class="ti ti-logout"></i> Keluar
-                        </a>
-                    </li>
-                </ul>
+                                {{-- FOTO PROFIL --}}
+                                @if ($user->fotoProfil)
+                                    <img src="{{ asset('storage/' . $user->fotoProfil->file_url) }}"
+                                        class="rounded-circle" width="45" height="45" style="object-fit:cover;">
+                                @else
+                                    <img src="{{ asset('images/default-user.png') }}" class="rounded-circle"
+                                        width="45" height="45">
+                                @endif
+
+                                <div class="lh-sm">
+                                    <div class="fw-semibold">{{ $user->name }}</div>
+                                    <small class="text-muted">{{ $user->email }}</small>
+                                </div>
+
+                            </div>
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        {{-- PROFIL --}}
+                        <li>
+                            <a href="{{ route('user.profil') }}" class="dropdown-item d-flex align-items-center gap-2">
+                                <i class="ti ti-user-edit"></i> Profil Saya
+                            </a>
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        {{-- LOGOUT --}}
+                        <li>
+                            <a href="{{ route('logout') }}"
+                                class="dropdown-item text-danger d-flex align-items-center gap-2"
+                                onclick="return confirm('Keluar dari aplikasi?')">
+                                <i class="ti ti-logout"></i> Keluar
+                            </a>
+                        </li>
+
+                    </ul>
+                @endif
+
 
             </div>
-
         @else
-            <a href="{{ route('login.form') }}"
-                class="btn btn-warning d-flex align-items-center gap-2 px-4"
+            <a href="{{ route('login.form') }}" class="btn btn-warning d-flex align-items-center gap-2 px-4"
                 style="border-radius:10px;">
                 <i class="ti ti-login fs-5"></i> Login
             </a>

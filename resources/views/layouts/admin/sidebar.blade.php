@@ -1,12 +1,11 @@
-<aside class="left-sidebar" style="background:#fff; border-right:1px solid #f1f1f1;">
+<aside class="left-sidebar shadow-sm">
 
-    <div>
+    <div class="sidebar-wrapper">
 
         {{-- LOGO --}}
-        <div class="brand-logo text-center py-4 border-bottom" style="background:#fff;">
-            <a href="{{ route('dashboard') }}" class="text-nowrap logo-img d-block">
-                <img src="{{ asset('assets/images/logos/logo.png') }}" alt="Logo" style="width:160px;"
-                    class="drop-shadow-lg">
+        <div class="brand-logo text-center py-4 border-bottom">
+            <a href="{{ route('dashboard') }}" class="logo-img d-block">
+                <img src="{{ asset('assets/images/logos/logo.png') }}" alt="Logo" style="width:150px;">
             </a>
         </div>
 
@@ -18,131 +17,162 @@
                     ? asset('storage/' . $user->fotoProfil->file_url)
                     : 'https://ui-avatars.com/api/?name=' .
                         urlencode($user->name) .
-                        '&background=C62828&color=fff&size=90&rounded=true';
+                        '&background=C62828&color=fff&size=100&rounded=true';
             @endphp
 
             <div class="sidebar-profile text-center py-4 px-3">
 
-                {{-- Avatar / Foto Profil --}}
-                <img src="{{ $foto }}" class="rounded-circle shadow mb-2" width="80" height="80"
-                    style="object-fit: cover;">
+                <div class="profile-avatar mb-2">
+                    <img src="{{ $foto }}" class="rounded-circle" width="85" height="85">
+                </div>
 
-                {{-- Nama User --}}
-                <h6 class="fw-bold mb-0">
-                    {{ $user->name }}
-                </h6>
+                <h6 class="fw-semibold mb-1">{{ $user->name }}</h6>
 
-                {{-- Role --}}
-                <span class="badge" style="background:#C62828; color:white; padding:5px 12px; border-radius:8px;">
+                <span class="badge role-badge">
                     {{ ucfirst($user->role) }}
                 </span>
 
-                <hr class="mt-3">
             </div>
         @endif
 
-
         {{-- NAVIGATION --}}
-        <nav class="sidebar-nav scroll-sidebar px-2" data-simplebar="">
+        <nav class="sidebar-nav px-2" data-simplebar>
             <ul id="sidebarnav">
 
-                {{-- TITLE --}}
-                <li class="nav-small-cap mt-3 mb-2">
-                    <span class="fw-bold text-muted small">MENU UTAMA</span>
+                <li class="nav-section">
+                    <span>MENU UTAMA</span>
                 </li>
 
-                {{-- MENU ITEM --}}
-                <li class="sidebar-item mb-1">
-                    <a class="sidebar-link d-flex align-items-center py-2 px-3 rounded hover-menu"
+                {{-- DASHBOARD --}}
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
                         href="{{ route('dashboard') }}">
-                        <iconify-icon icon="solar:atom-line-duotone" class="me-3" width="20"></iconify-icon>
+                        <iconify-icon icon="solar:atom-line-duotone" width="22"></iconify-icon>
                         <span>Dashboard</span>
                     </a>
                 </li>
 
-                <li class="sidebar-item mb-1">
-                    <a class="sidebar-link d-flex align-items-center py-2 px-3 rounded hover-menu"
+                {{-- USERS --}}
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{ request()->routeIs('user.*') ? 'active' : '' }}"
                         href="{{ route('user.index') }}">
-                        <iconify-icon icon="solar:users-group-rounded-line-duotone" class="me-3"
-                            width="20"></iconify-icon>
-                        <span>Users</span>
+                        <iconify-icon icon="solar:users-group-rounded-line-duotone" width="22"></iconify-icon>
+                        <span>Manajemen User</span>
                     </a>
                 </li>
 
-                <li class="sidebar-item mb-1">
-                    <a class="sidebar-link d-flex align-items-center py-2 px-3 rounded hover-menu"
+                {{-- WARGA --}}
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{ request()->routeIs('warga.*') ? 'active' : '' }}"
                         href="{{ route('warga.index') }}">
-                        <iconify-icon icon="solar:users-group-two-rounded-line-duotone" class="me-3"
-                            width="20"></iconify-icon>
-                        <span>Warga</span>
+                        <iconify-icon icon="solar:users-group-two-rounded-line-duotone" width="22"></iconify-icon>
+                        <span>Data Warga</span>
                     </a>
                 </li>
 
-                <li class="sidebar-item mb-1">
-                    <a class="sidebar-link d-flex align-items-center py-2 px-3 rounded hover-menu"
+                {{-- DESTINASI --}}
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{ request()->routeIs('destinasi.*') ? 'active' : '' }}"
                         href="{{ route('destinasi.index') }}">
-                        <iconify-icon icon="solar:map-point-bold-duotone" class="me-3" width="20"></iconify-icon>
-                        <span>Destinasi</span>
+                        <iconify-icon icon="solar:map-point-bold-duotone" width="22"></iconify-icon>
+                        <span>Destinasi Wisata</span>
                     </a>
                 </li>
 
-                <li class="sidebar-item mb-1">
-                    <a class="sidebar-link d-flex align-items-center py-2 px-3 rounded hover-menu"
+                {{-- HOMESTAY --}}
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{ request()->routeIs('homestay.*') ? 'active' : '' }}"
                         href="{{ route('homestay.index') }}">
-                        <iconify-icon icon="material-symbols:home-work-rounded" class="me-3"
-                            width="20"></iconify-icon>
+                        <iconify-icon icon="material-symbols:home-work-rounded" width="22"></iconify-icon>
                         <span>Homestay</span>
                     </a>
                 </li>
 
-                <li class="sidebar-item mb-1">
-                    <a class="sidebar-link d-flex align-items-center py-2 px-3 rounded hover-menu"
+                {{-- KAMAR --}}
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{ request()->routeIs('kamar.*') ? 'active' : '' }}"
                         href="{{ route('kamar.index') }}">
-                        <iconify-icon icon="material-symbols:meeting-room-rounded" class="me-3"
-                            width="20"></iconify-icon>
+                        <iconify-icon icon="material-symbols:meeting-room-rounded" width="22"></iconify-icon>
                         <span>Kamar Homestay</span>
                     </a>
                 </li>
 
-                <li class="sidebar-item mb-1">
-                    <a class="sidebar-link d-flex align-items-center py-2 px-3 rounded hover-menu"
+                {{-- BOOKING --}}
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{ request()->routeIs('booking.*') ? 'active' : '' }}"
                         href="{{ route('booking.index') }}">
-                        <iconify-icon icon="solar:calendar-bold-duotone" class="me-3" width="20"></iconify-icon>
-                        <span>Booking Homestay</span>
+                        <iconify-icon icon="solar:calendar-bold-duotone" width="22"></iconify-icon>
+                        <span>Booking</span>
                     </a>
                 </li>
 
-                <li class="sidebar-item mb-1">
-                    <a class="sidebar-link d-flex align-items-center py-2 px-3 rounded hover-menu"
+                {{-- ULASAN --}}
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{ request()->routeIs('ulasan.*') ? 'active' : '' }}"
                         href="{{ route('ulasan.index') }}">
-                        <iconify-icon icon="solar:star-bold-duotone" width="20" class="me-3"></iconify-icon>
+                        <iconify-icon icon="solar:star-bold-duotone" width="22"></iconify-icon>
                         <span>Ulasan Wisata</span>
                     </a>
                 </li>
-
-
 
             </ul>
         </nav>
 
     </div>
-
 </aside>
 
-{{-- STYLE TAMBAHAN --}}
 <style>
-    .hover-menu:hover {
-        background: #C62828 !important;
-        color: #fff !important;
+    .left-sidebar {
+        background: #ffffff;
+        border-right: 1px solid #eee;
     }
 
-    .hover-menu:hover iconify-icon {
-        color: #fff !important;
+    .sidebar-profile {
+        border-bottom: 1px solid #eee;
+    }
+
+    .profile-avatar img {
+        border: 3px solid #C62828;
+        object-fit: cover;
+    }
+
+    .role-badge {
+        background: #C62828;
+        color: #fff;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 12px;
+    }
+
+    .nav-section {
+        font-size: 11px;
+        font-weight: 700;
+        color: #999;
+        padding: 15px 15px 8px;
     }
 
     .sidebar-link {
-        color: #444 !important;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 11px 15px;
+        color: #444;
         font-weight: 500;
-        transition: .2s ease;
+        border-radius: 10px;
+        transition: all .2s ease;
+    }
+
+    .sidebar-link:hover {
+        background: rgba(198, 40, 40, 0.08);
+        color: #C62828;
+    }
+
+    .sidebar-link.active {
+        background: #C62828;
+        color: #fff;
+    }
+
+    .sidebar-link.active iconify-icon {
+        color: #fff;
     }
 </style>
