@@ -5,7 +5,7 @@
         {{-- LOGO --}}
         <div class="brand-logo text-center py-4 border-bottom" style="background:#fff;">
             <a href="{{ route('dashboard') }}" class="text-nowrap logo-img d-block">
-                <img src="{{ asset('assets/images/logos/logo.png') }}" alt="Logo" style="width:120px;"
+                <img src="{{ asset('assets/images/logos/logo.png') }}" alt="Logo" style="width:160px;"
                     class="drop-shadow-lg">
             </a>
         </div>

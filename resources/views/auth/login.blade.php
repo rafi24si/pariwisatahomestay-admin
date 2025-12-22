@@ -86,8 +86,8 @@
         class="fade-card bg-white/90 backdrop-blur-xl p-8 rounded-2xl shadow-2xl w-full max-w-md border border-red-100 relative">
 
         <!-- LOGO -->
-        <div class="flex justify-center mb-4">
-            <img src="{{ asset('assets/images/logo.png') }}" class="w-40 drop-shadow-xl">
+        <div class="flex justify-center mb-3">
+            <img src="{{ asset('assets/images/logo.png') }}" class="w-60 drop-shadow-xl">
         </div>
 
         <!-- INTRO -->
