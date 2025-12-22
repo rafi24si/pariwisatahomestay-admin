@@ -26,7 +26,7 @@ class WargaController extends Controller
         $warga = Warga::search($keyword)
                     ->filter($filters)
                     ->sort($sortBy, $sortOrder)
-                    ->paginate(12)
+                    ->paginate(8)
                     ->withQueryString();
 
         return view('warga.index', [

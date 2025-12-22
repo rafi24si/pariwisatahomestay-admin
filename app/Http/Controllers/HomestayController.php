@@ -25,7 +25,7 @@ class HomestayController extends Controller
             ->search($keyword)
             ->filter($filters)
             ->orderBy('homestay_id', 'DESC')
-            ->paginate(12)
+            ->paginate(3)
             ->withQueryString();
 
         // Ambil daftar pemilik (warga)

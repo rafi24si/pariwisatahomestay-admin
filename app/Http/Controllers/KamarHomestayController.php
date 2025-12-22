@@ -38,7 +38,7 @@ class KamarHomestayController extends Controller
         // PAGINATION GLOBAL
         // --------------------------
         $paginate = KamarHomestay::orderBy('kamar_id', 'DESC')
-            ->paginate(12)
+            ->paginate(6)
             ->withQueryString();
 
         return view('kamar.index', [

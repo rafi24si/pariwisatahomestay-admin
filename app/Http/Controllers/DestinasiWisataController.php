@@ -23,7 +23,7 @@ class DestinasiWisataController extends Controller
                 'tiket_max' => $request->tiket_max,
             ])
             ->orderBy('destinasi_id', 'DESC')
-            ->paginate(8)
+            ->paginate(4)
             ->withQueryString();
 
         return view('destinasi.index', compact('destinasi'));

@@ -25,7 +25,7 @@ class BookingHomestayController extends Controller
             ->search($request->search)
             ->filter($filters)
             ->orderBy('booking_id', 'DESC')
-            ->paginate(12)
+            ->paginate(3)
             ->withQueryString();
 
         return view('booking.index', compact('booking', 'filters'));
